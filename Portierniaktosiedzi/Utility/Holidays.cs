@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 
 namespace Portierniaktosiedzi.Utility
 {
-    public class Holidays
+    public class Holidays : IHolidays
     {
         private readonly int year;
 
@@ -15,6 +16,11 @@ namespace Portierniaktosiedzi.Utility
 
             this.year = year;
         }
+
+        public Collection<DateTime> GetHolidays() => new Collection<DateTime>
+            {
+                CalculateEasterDate()
+            };
 
         public DateTime CalculateEasterDate()
         {
