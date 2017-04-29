@@ -1,8 +1,8 @@
 ﻿using System;
-using Portierniaktosiedzi.Models;
+using Portierniaktosiedzi.Utility;
 using Xunit;
 
-namespace Portierniaktosiedzi.Tests.Models
+namespace Portierniaktosiedzi.Tests.Utility
 {
     public class HolidaysShould
     {

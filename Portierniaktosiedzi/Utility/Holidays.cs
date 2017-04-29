@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Portierniaktosiedzi.Models
+namespace Portierniaktosiedzi.Utility
 {
     public class Holidays
     {

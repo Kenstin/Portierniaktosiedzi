@@ -1,4 +1,4 @@
-﻿namespace Portierniaktosiedzi.Models
+﻿namespace Portierniaktosiedzi.Utility
 {
         public enum Gender
         {
