@@ -5,8 +5,17 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Portierniaktosiedzi"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="MainWindow" Height="600" Width="800">
     <Grid>
-        
+        <TextBox x:Name="year" HorizontalAlignment="Left" Height="25" Margin="537,21,0,0" TextWrapping="Wrap" Text="Rok" VerticalAlignment="Top" Width="100" RenderTransformOrigin="0.49,0.56" FontSize="14"/>
+        <TextBox x:Name="month" HorizontalAlignment="Left" Height="25" Margin="417,21,0,0" TextWrapping="Wrap" Text="Miesiąc" VerticalAlignment="Top" Width="100" FontSize="14"/>
+        <Button x:Name="addperson" Content="Dodaj osobę" HorizontalAlignment="Left" Margin="14,53,0,0" VerticalAlignment="Top" Width="97" Height="32" FontSize="14"/>
+        <Button x:Name="generate" Content="Wygeneruj" HorizontalAlignment="Left" Margin="658,18,0,0" VerticalAlignment="Top" Width="106" Height="32" FontSize="14"/>
+        <Button x:Name="previousvalues" Content="Użyj poprzednich wartości" HorizontalAlignment="Left" Margin="116,53,0,0" VerticalAlignment="Top" Width="180" Height="32" FontSize="14"/>
+        <TextBox x:Name="name" HorizontalAlignment="Left" Height="23" Margin="14,90,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="150" AutomationProperties.HelpText="imie " Text="Imię i nazwisko"/>
+        <TextBlock HorizontalAlignment="Left" Height="0" Margin="227,153,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" Width="3"/>
+        <TextBox x:Name="gender" HorizontalAlignment="Left" Height="23" Margin="169,90,0,0" TextWrapping="Wrap" Text="Płeć (K/M)" VerticalAlignment="Top" Width="66"/>
+        <TextBox x:Name="post" HorizontalAlignment="Left" Height="23" Margin="240,90,0,0" TextWrapping="Wrap" Text="Etat" VerticalAlignment="Top" Width="31"/>
+        <Button x:Name="addconfirmation" Content="+" HorizontalAlignment="Left" Margin="276,90,0,0" VerticalAlignment="Top" Width="20" Height="23" RenderTransformOrigin="0.486,0.39" FontSize="16"/>
     </Grid>
 </Window>
