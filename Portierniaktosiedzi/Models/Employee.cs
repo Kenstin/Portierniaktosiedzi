@@ -18,7 +18,7 @@ namespace Portierniaktosiedzi.Models
 
         public int Posts { get; }
 
-        public int PostsToWorkingHours(int month, int year)
+        public int GetWorkingHours(int month, int year)
         {
             int hours, workingdays;
             int daysinmonth = System.DateTime.DaysInMonth(year, month);
