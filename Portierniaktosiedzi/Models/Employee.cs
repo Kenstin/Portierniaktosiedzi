@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Globalization;
 
-namespace Portierniaktosiedzi.Utility
+namespace Portierniaktosiedzi.Models
 {
     public class Employee
     {
