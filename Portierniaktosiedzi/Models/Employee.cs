@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Globalization;
+using Portierniaktosiedzi.Utility;
 
 namespace Portierniaktosiedzi.Models
 {
@@ -18,7 +19,7 @@ namespace Portierniaktosiedzi.Models
 
         public float Posts { get; }
 
-        public int GetWorkingHours(int month, int year)
+        public int GetWorkingHours(int month, int year, IHolidays holidays)
         {
             int hours, workingdays;
             int daysinmonth = System.DateTime.DaysInMonth(year, month);
@@ -31,6 +32,14 @@ namespace Portierniaktosiedzi.Models
                     workingdays--;
                 }
             }
+
+            foreach (var element in holidays.GetHolidays())
+                {
+                    if (element.Month == month)
+                    {
+                        workingdays--;
+                    }
+                }
 
             hours = (int)((Posts * (workingdays * 8)) - ((Posts * (workingdays * 8)) % 8));
             return hours;
