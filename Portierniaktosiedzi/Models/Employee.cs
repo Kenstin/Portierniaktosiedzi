@@ -5,7 +5,7 @@ namespace Portierniaktosiedzi.Models
 {
     public class Employee
     {
-        public Employee(int posts, Gender gender, string name)
+        public Employee(float posts, Gender gender, string name)
         {
             Posts = posts;
             Gender = gender;
@@ -16,7 +16,7 @@ namespace Portierniaktosiedzi.Models
 
         public Gender Gender { get; }
 
-        public int Posts { get; }
+        public float Posts { get; }
 
         public int GetWorkingHours(int month, int year)
         {
@@ -32,7 +32,7 @@ namespace Portierniaktosiedzi.Models
                 }
             }
 
-            hours = (Posts * (workingdays * 8)) - ((Posts * (workingdays * 8)) % 8);
+            hours = (int)((Posts * (workingdays * 8)) - ((Posts * (workingdays * 8)) % 8));
             return hours;
         }
     }
