@@ -30,9 +30,6 @@ namespace Portierniaktosiedzi.Utility
             };
         }
 
-        /// <summary>
-        /// Gets an IEnumerable of every work-free holiday in the given year
-        /// </summary>
         public IEnumerable<DateTime> HolidayDates
         {
             get
