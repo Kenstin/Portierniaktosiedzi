@@ -33,7 +33,7 @@ namespace Portierniaktosiedzi.Models
                 }
             }
 
-            foreach (var element in holidays.GetHolidays())
+            foreach (var element in holidays.HolidayDates)
                 {
                     if (element.Month == month)
                     {

@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 
 namespace Portierniaktosiedzi.Utility
 {
     public interface IHolidays
     {
-        DateTime CalculateEasterDate();
-
-        Collection<DateTime> GetHolidays();
+        IEnumerable<DateTime> HolidayDates { get; }
     }
 }
