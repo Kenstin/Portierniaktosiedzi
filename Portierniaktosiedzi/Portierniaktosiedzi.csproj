@@ -61,6 +61,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Models\Day.cs" />
     <Compile Include="Models\Timetable.cs" />
     <Compile Include="Utility\IHolidays.cs" />
