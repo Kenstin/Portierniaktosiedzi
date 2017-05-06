@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Portierniaktosiedzi.Extensions;
 using Portierniaktosiedzi.Utility;
 
@@ -23,10 +24,7 @@ namespace Portierniaktosiedzi.Models
         {
             int workingdays = DateTime.DaysInMonth(year, month);
 
-            foreach (var i in new DateTime(year, month, 1).GetSaturdaysAndSundays())
-            {
-                workingdays--;
-            }
+            workingdays -= new DateTime(year, month, 1).GetSaturdaysAndSundays().Count();
 
             foreach (var element in holidays.HolidayDates)
                 {
