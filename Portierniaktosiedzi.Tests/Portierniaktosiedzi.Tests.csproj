@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="DataSources\DateTimeExtensionsDataSource.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
+    <Compile Include="Models\EmployeeShould.cs" />
     <Compile Include="Utility\HolidaysShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
