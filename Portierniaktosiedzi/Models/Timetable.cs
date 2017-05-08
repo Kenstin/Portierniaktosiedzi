@@ -10,7 +10,7 @@ namespace Portierniaktosiedzi.Models
 {
     public class Timetable
     {
-        private Day[] days;
+        private readonly Day[] days;
         private readonly List<Employee> employees;
         private readonly DateTime month;
         private readonly IHolidays holidays;
