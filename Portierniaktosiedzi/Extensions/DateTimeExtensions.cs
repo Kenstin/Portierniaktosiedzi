@@ -19,5 +19,10 @@ namespace Portierniaktosiedzi.Extensions
 
             return freeDays;
         }
+
+        public static DateTime Clone(this DateTime dateTime)
+        {
+            return new DateTime(dateTime.Ticks);
+        }
     }
 }
