@@ -70,6 +70,7 @@
     <Compile Include="Models\Day.cs" />
     <Compile Include="Models\NegativeArray.cs" />
     <Compile Include="Models\Timetable.cs" />
+    <Compile Include="Models\TimetableGenerator.cs" />
     <Compile Include="Utility\IHolidays.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
