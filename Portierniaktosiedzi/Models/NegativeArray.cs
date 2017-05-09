@@ -1,8 +1,11 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
 
 namespace Portierniaktosiedzi.Models
 {
-    public class NegativeArray<T>
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "Reviewed.")]
+    public class NegativeArray<T> : IEnumerable<T>
     {
         private readonly T[] rightArray;
         private readonly T[] leftArray;
@@ -61,6 +64,19 @@ namespace Portierniaktosiedzi.Models
                     rightArray[--index] = value;
                 }
             }
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            for (var i = (leftArray.Length - 1) * -1; i <= rightArray.Length; i++)
+            {
+                yield return this[i];
+            }
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }
