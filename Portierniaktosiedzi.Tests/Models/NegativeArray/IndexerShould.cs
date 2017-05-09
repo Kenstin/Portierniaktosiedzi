@@ -2,14 +2,14 @@
 using Portierniaktosiedzi.Models;
 using Xunit;
 
-namespace Portierniaktosiedzi.Tests.Models.Month
+namespace Portierniaktosiedzi.Tests.Models.NegativeArray
 {
-    public class MonthIndexerShould
+    public class IndexerShould
     {
         private readonly Day[] days;
         private readonly Day[] daysBefore;
 
-        public MonthIndexerShould()
+        public IndexerShould()
         {
             days = new Day[10];
             daysBefore = new Day[3];
@@ -18,7 +18,7 @@ namespace Portierniaktosiedzi.Tests.Models.Month
         [Fact]
         public void ThrowExceptionGivenValuesOutOfRange()
         {
-            var month = Portierniaktosiedzi.Models.Month.FromArrays(daysBefore, days);
+            var month = new NegativeArray<Day>(daysBefore, days);
             Assert.Throws<ArgumentOutOfRangeException>(() => month[-3]);
             Assert.Throws<ArgumentOutOfRangeException>(() => month[11]);
         }
@@ -26,7 +26,7 @@ namespace Portierniaktosiedzi.Tests.Models.Month
         [Fact]
         public void ThrowExceptionSettingValuesOutOfRange()
         {
-            var month = Portierniaktosiedzi.Models.Month.FromArrays(daysBefore, days);
+            var month = new NegativeArray<Day>(daysBefore, days);
             Assert.Throws<ArgumentOutOfRangeException>(() => month[-3] = new Day());
             Assert.Throws<ArgumentOutOfRangeException>(() => month[11] = new Day());
         }
@@ -39,7 +39,7 @@ namespace Portierniaktosiedzi.Tests.Models.Month
             daysBefore[0] = new Day(); //0. day
             daysBefore[1] = new Day(); //-1. day
 
-            var month = Portierniaktosiedzi.Models.Month.FromArrays(daysBefore, days);
+            var month = new NegativeArray<Day>(daysBefore, days);
             Assert.Equal(days[0], month[1]);
             Assert.Equal(days[1], month[2]);
         }
@@ -52,7 +52,7 @@ namespace Portierniaktosiedzi.Tests.Models.Month
             daysBefore[0] = new Day(); //0. day
             daysBefore[1] = new Day(); //-1. day
 
-            var month = Portierniaktosiedzi.Models.Month.FromArrays(daysBefore, days);
+            var month = new NegativeArray<Day>(daysBefore, days);
             Assert.Equal(daysBefore[0], month[0]);
             Assert.Equal(daysBefore[1], month[-1]);
         }
@@ -65,7 +65,7 @@ namespace Portierniaktosiedzi.Tests.Models.Month
             daysBefore[0] = new Day(); //0. day
             daysBefore[1] = new Day(); //-1. day
 
-            var month = Portierniaktosiedzi.Models.Month.FromArrays(new Day[daysBefore.Length], new Day[days.Length]);
+            var month = new NegativeArray<Day>(new Day[daysBefore.Length], new Day[days.Length]);
             month[1] = days[0];
             month[2] = days[1];
             Assert.Equal(days[0], month[1]);
@@ -80,7 +80,7 @@ namespace Portierniaktosiedzi.Tests.Models.Month
             daysBefore[0] = new Day(); //0. day
             daysBefore[1] = new Day(); //-1. day
 
-            var month = Portierniaktosiedzi.Models.Month.FromArrays(new Day[daysBefore.Length], new Day[days.Length]);
+            var month = new NegativeArray<Day>(new Day[daysBefore.Length], new Day[days.Length]);
             month[0] = daysBefore[0];
             month[-1] = daysBefore[1];
             Assert.Equal(daysBefore[0], month[0]);

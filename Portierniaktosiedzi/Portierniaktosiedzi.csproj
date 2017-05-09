@@ -63,7 +63,7 @@
     </ApplicationDefinition>
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Models\Day.cs" />
-    <Compile Include="Models\Month.cs" />
+    <Compile Include="Models\NegativeArray.cs" />
     <Compile Include="Utility\IHolidays.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
