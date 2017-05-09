@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 namespace Portierniaktosiedzi.Models
 {
+    [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Naming", "CA1710:IdentifiersShouldHaveCorrectSuffix", Justification = "Reviewed.")]
     public class NegativeArray<T> : IEnumerable<T>
     {
         private readonly T[] rightArray;
