@@ -65,7 +65,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Models\SavingAsXlsx.cs" />
+    <Compile Include="Models\SaveAsXlsx.cs" />
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Models\Day.cs" />
     <Compile Include="Models\NegativeArray.cs" />

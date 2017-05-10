@@ -1,20 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.Office.Interop.Excel;
+﻿using Microsoft.Office.Interop.Excel;
 using Portierniaktosiedzi.Models;
 
-namespace Portierniaktosiedzi.Extensions
+namespace Portierniaktosiedzi.Models
 {
-    class SavingAsXlsx
+    class SaveAsXlsx
     {
         private static Application timetable;
         private Workbook workbook;
         private Worksheet worksheet;
 
-        public SavingAsXlsx(string path, /*NegativeArray<Day> list,*/ string name)
+        public SaveAsXlsx(string path, /*NegativeArray<Day> list,*/ string name)
         {
             timetable = new Application();
             workbook = timetable.Workbooks.Add(XlWBATemplate.xlWBATWorksheet);
@@ -23,18 +18,18 @@ namespace Portierniaktosiedzi.Extensions
             GenerateTemplateSheet();
             object missing = System.Reflection.Missing.Value;
             workbook.SaveAs(
-                        path + "\\" + name,
-                        XlFileFormat.xlOpenXMLWorkbook,
-                        missing,
-                        missing,
-                        false,
-                        false,
-                        XlSaveAsAccessMode.xlNoChange,
-                        missing,
-                        missing,
-                        missing,
-                        missing,
-                        missing);
+                        Filename: path + "\\" + name,
+                        FileFormat: XlFileFormat.xlOpenXMLWorkbook,
+                        Password: missing,
+                        WriteResPassword: missing,
+                        ReadOnlyRecommended: false,
+                        CreateBackup: false,
+                        AccessMode: XlSaveAsAccessMode.xlNoChange,
+                        ConflictResolution: missing,
+                        AddToMru: missing,
+                        TextCodepage: missing,
+                        TextVisualLayout: missing,
+                        Local: missing);
         }
 
         private void GenerateTemplateSheet()
@@ -46,7 +41,7 @@ namespace Portierniaktosiedzi.Extensions
         private void AdjustColumnWidth()
         {
             int[] tab = new int[] { 14, 13, 17, 17, 17, 17, 17, 17, 17, 17, 17 };
-            for (int i = 0; i < 11; i++)
+            for (int i = 0; i < tab.Length; i++)
             {
                 Range range = (Range)worksheet.Cells[1, i + 1];
                 range.Columns.ColumnWidth = tab[i];
