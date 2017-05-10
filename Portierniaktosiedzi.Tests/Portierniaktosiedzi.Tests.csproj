@@ -59,6 +59,7 @@
     <Compile Include="Extensions\DateTimeExtensions.cs" />
     <Compile Include="Models\EmployeeShould.cs" />
     <Compile Include="Models\NegativeArray\ConstructorShould.cs" />
+    <Compile Include="Models\NegativeArray\Enumerable.cs" />
     <Compile Include="Models\NegativeArray\IndexerShould.cs" />
     <Compile Include="Utility\HolidaysShould.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
