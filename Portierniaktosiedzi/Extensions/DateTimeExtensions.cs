@@ -24,5 +24,16 @@ namespace Portierniaktosiedzi.Extensions
         {
             return new DateTime(dateTime.Ticks);
         }
+
+        public static IEnumerable<Tuple<DateTime, DateTime>> GetWeekendTuples(this DateTime date)
+        {
+            foreach (var day in date.GetSaturdaysAndSundays())
+            {
+                if (day.DayOfWeek == DayOfWeek.Saturday && day.AddDays(1).DayOfWeek == DayOfWeek.Sunday)
+                {
+                    yield return Tuple.Create(day, day.AddDays(1));
+                }
+            }
+        }
     }
 }

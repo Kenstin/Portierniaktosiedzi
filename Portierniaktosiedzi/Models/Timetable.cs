@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Portierniaktosiedzi.Extensions;
 using Portierniaktosiedzi.Utility;
 
 namespace Portierniaktosiedzi.Models
 {
     public class Timetable
     {
-        public Timetable(DateTime month, Day dayBefore)
+        public Timetable(DateTime month, Day[] daysBefore)
         {
             if (month == null)
             {
@@ -14,26 +16,33 @@ namespace Portierniaktosiedzi.Models
             }
 
             Month = month;
-            Days = new Day[DateTime.DaysInMonth(month.Year, month.Month) + 1];
-            Days[0] = dayBefore ?? throw new ArgumentNullException(nameof(dayBefore)); /////////////////////
 
-            //this.employees = employees.OrderBy(e => e.Posts).ToList();
-            //this.holidays = holidays ?? throw new ArgumentNullException(nameof(holidays));
+            try
+            {
+                if (daysBefore.Any(day => !day.IsFull()))
+                {
+                    throw new ArgumentException("All shifts have to be assigned.");
+                }
+            }
+            catch (ArgumentNullException exception)
+            {
+                throw new Exception("No element can be null.", exception);
+            }
 
-            for (int i = 1; i < Days.Length; i++)
+            if (daysBefore.Length < 6)
+            {
+                throw new ArgumentOutOfRangeException(nameof(daysBefore), "Length has to be greater than 5");
+            }
+
+            Days = new NegativeArray<Day>(daysBefore, new Day[DateTime.DaysInMonth(month.Year, month.Month)]);
+
+            for (int i = 1; i <= Days.RightArrayLength; i++)
             {
                 Days[i] = new Day();
             }
-
-            /*xD = new Dictionary<Employee, ushort>
-            {
-                { this.employees[0], 0 },
-                { this.employees[1], 0 },
-                { this.employees[2], 0 }
-            };*/
         }
 
-        public Day[] Days { get; }
+        public NegativeArray<Day> Days { get; }
 
         public DateTime Month { get; }
 
@@ -45,7 +54,7 @@ namespace Portierniaktosiedzi.Models
 
         public void Generate(IEnumerable<Employee> employees, IHolidays holidays)
         {
-            var timetableGenerator = new TimetableGenerator(this, employees, holidays);
+            var timetableGenerator = new TimetableGenerator(this, employees, holidays ?? throw new ArgumentNullException(nameof(holidays)));
             timetableGenerator.Generate();
         }
     }
