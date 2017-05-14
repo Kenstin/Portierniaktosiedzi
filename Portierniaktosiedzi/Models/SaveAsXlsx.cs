@@ -36,7 +36,7 @@ namespace Portierniaktosiedzi.Models
         {
             AdjustWidth();
             MergeRows();
-            SetDafaultText();
+            SetDefaultText();
         }
 
         private void AdjustWidth()
@@ -68,7 +68,7 @@ namespace Portierniaktosiedzi.Models
             worksheet.Range[worksheet.Cells[rowA, columnA], worksheet.Cells[rowB, columnB]].Merge();
         }
 
-        private void SetDafaultText()
+        private void SetDefaultText()
         {
             //TODO zamień wszystkie worksheet.Cells na worksheet range np. worksheet.Range["B2"].HorizontalAlignment ...
             worksheet.Cells[2, 2] = "Data";
