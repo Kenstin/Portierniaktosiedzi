@@ -9,7 +9,7 @@ namespace Portierniaktosiedzi.Models
         private Workbook workbook;
         private Worksheet worksheet;
 
-        public SaveAsXlsx(string path, /*NegativeArray<Day> list,*/ string name, int month, int year)
+        public SaveAsXlsx(string path, /*NegativeArray<Day> list,*/ string name/* int month, int year*/)
         {
             timetable = new Application();
             workbook = timetable.Workbooks.Add(XlWBATemplate.xlWBATWorksheet);
@@ -65,7 +65,7 @@ namespace Portierniaktosiedzi.Models
 
         private void Range(int rowA, int columnA, int rowB, int columnB)
         {
-            worksheet.Range[worksheet.Cells[rowA, columnA],worksheet.Cells[rowB, columnB]].Merge();
+            worksheet.Range[worksheet.Cells[rowA, columnA], worksheet.Cells[rowB, columnB]].Merge();
         }
 
         private void SetDafaultText()
@@ -84,7 +84,6 @@ namespace Portierniaktosiedzi.Models
             AlignCenter("J2");
             worksheet.Cells[2, 11] = "22.00 - 6.00";
             AlignCenter("K2");
-
         }
 
         private void AlignCenter(string cell)
