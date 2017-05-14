@@ -70,7 +70,7 @@ namespace Portierniaktosiedzi.Models
 
         private void SetDafaultText()
         {
-            //TODO zamień wszystkie worksheet.Cells na worksheet range np. worksheet.Range["B2"].HorizontalAlignment ...
+            //TODOzamień wszystkie worksheet.Cells na worksheet range np. worksheet.Range["B2"].HorizontalAlignment ...
             worksheet.Cells[2, 2] = "Data";
             AlignCenter("B2");
             worksheet.Cells[2, 3] = "Dzień";
