@@ -26,7 +26,7 @@ namespace Portierniaktosiedzi.Models
             }
             catch (ArgumentNullException exception)
             {
-                throw new Exception("No element can be null.", exception);
+                throw new ArgumentNullException("No element can be null.", exception);
             }
 
             if (daysBefore.Length < 6)
