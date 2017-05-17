@@ -55,9 +55,8 @@ namespace Portierniaktosiedzi.Models
         private bool BruteForce()
         {
             var nextEmployee = employees.Find(e => !weekendsOff.ContainsKey(e));
-            if (nextEmployee == null) // jesli nie znajdziemy juz employeea bez przydzielonego wolnego weekendu,
+            if (nextEmployee == null) // jesli nie znajdziemy juz employeea bez przydzielonego wolnego weekendu, to generujemy
             {
-                //  to znaczy, ¿e mo¿na generowaæ grafik
                 return TryMake();
             }
 
@@ -282,6 +281,10 @@ namespace Portierniaktosiedzi.Models
                     }
                     else if (tmp.Month == date.Month - 1 &&
                              timetable.Days[tmp.Day - DateTime.DaysInMonth(tmp.Year, tmp.Month)].IsThere(employee))
+                    {
+                        daysOff++;
+                    }
+                    else if (tmp.Month == date.Month + 1)
                     {
                         daysOff++;
                     }
