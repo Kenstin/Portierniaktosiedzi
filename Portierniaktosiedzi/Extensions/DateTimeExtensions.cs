@@ -25,6 +25,7 @@ namespace Portierniaktosiedzi.Extensions
             return new DateTime(dateTime.Ticks);
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Reviewed.")]
         public static IEnumerable<Tuple<DateTime, DateTime>> GetWeekendTuples(this DateTime date)
         {
             foreach (var day in date.GetSaturdaysAndSundays())
