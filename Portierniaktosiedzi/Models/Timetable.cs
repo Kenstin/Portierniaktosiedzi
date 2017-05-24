@@ -46,6 +46,8 @@ namespace Portierniaktosiedzi.Models
 
         public DateTime Month { get; }
 
+        public IReadOnlyDictionary<Employee, int> WorkingHoursLeft { get; protected set; }
+
         //11 h - 2 zmiany odstepu
         //35h w tygodniu - 5 odstepu
         //wolny weekend raz na miesiac
@@ -56,6 +58,7 @@ namespace Portierniaktosiedzi.Models
         {
             var timetableGenerator = new TimetableGenerator(this, employees, holidays ?? throw new ArgumentNullException(nameof(holidays)));
             timetableGenerator.Generate();
+            WorkingHoursLeft = timetableGenerator.WorkingHoursLeft;
         }
     }
 }

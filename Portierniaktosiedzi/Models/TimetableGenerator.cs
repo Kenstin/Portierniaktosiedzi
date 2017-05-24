@@ -25,11 +25,12 @@ namespace Portierniaktosiedzi.Models
             this.holidays = holidays;
 
             weekendsOff = new Dictionary<Employee, Tuple<DateTime, DateTime>>();
-           // weekends = new List<Tuple<DateTime, DateTime>>();
             weekends = timetable.Month.GetWeekendTuples().ToList();
             schoolEmployee = new Employee(float.MaxValue, Gender.Woman, "Pracownik szkoly");
             bestCombination = Tuple.Create(weekendsOff, int.MaxValue);
         }
+
+        public IReadOnlyDictionary<Employee, int> WorkingHoursLeft => workingHoursLeft;
 
         public bool Generate()
         {
