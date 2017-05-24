@@ -20,7 +20,7 @@ namespace Portierniaktosiedzi.Models
 
         public float Posts { get; }
 
-        public int GetWorkingHours(int month, int year, IHolidays holidays)
+        public decimal GetWorkingHours(int month, int year, IHolidays holidays)
         {
             int workingdays = DateTime.DaysInMonth(year, month);
 
@@ -34,8 +34,7 @@ namespace Portierniaktosiedzi.Models
                     }
                 }
 
-            int hours = (int)((Posts * (workingdays * 8)) - ((Posts * (workingdays * 8)) % 8));
-            return hours;
+            return (decimal)Posts * workingdays * 8;
         }
     }
 }
