@@ -7,22 +7,16 @@ namespace Portierniaktosiedzi.Tests.Models
     public class EmployeeShould
     {
         [Theory]
-        [InlineData(6, 2017, 168)]
-        [InlineData(8, 2017, 176)]
-        [InlineData(12, 2017, 152)]
-        public void GetWorkingHours(int month, int year, int expected)
+        [InlineData(6, 2017, 1, 168)]
+        [InlineData(8, 2017, 1, 176)]
+        [InlineData(12, 2017, 1, 152)]
+        [InlineData(4, 2017, 0.5, 76)]
+        [InlineData(4, 2017, 0.6, 91.2)]
+        [InlineData(11, 2017, 1, 168)]
+        public void GetWorkingHours(int month, int year, double posts, decimal expected)
         {
-            var employee = new Employee(1, Gender.Man, "Placeholder");
+            var employee = new Employee((float) posts, Gender.Man, "Placeholder");
             Assert.Equal(expected, employee.GetWorkingHours(month, year, new Holidays(year)));
-        }
-
-        [Fact]
-        public void GetWorkingHoursShouldBeDivisibleBy8()
-        {
-            var employee = new Employee(0.5f, Gender.Man, "Placeholder");
-            Assert.Equal(72, employee.GetWorkingHours(4, 2017, new Holidays(2017)));
-            employee = new Employee(0.6f, Gender.Man, "Placeholder");
-            Assert.Equal(88, employee.GetWorkingHours(4, 2017, new Holidays(2017)));
         }
     }
 }
