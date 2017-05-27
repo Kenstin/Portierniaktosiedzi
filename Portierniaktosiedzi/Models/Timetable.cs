@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Portierniaktosiedzi.Extensions;
 using Portierniaktosiedzi.Utility;
 
 namespace Portierniaktosiedzi.Models
@@ -46,7 +45,7 @@ namespace Portierniaktosiedzi.Models
 
         public DateTime Month { get; }
 
-        public IReadOnlyDictionary<Employee, int> WorkingHoursLeft { get; protected set; }
+        public IReadOnlyDictionary<Employee, decimal> WorkingHoursLeft { get; protected set; }
 
         //11 h - 2 zmiany odstepu
         //35h w tygodniu - 5 odstepu

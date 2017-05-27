@@ -14,9 +14,9 @@ namespace Portierniaktosiedzi.Models
         private readonly IHolidays holidays;
         private readonly List<Tuple<DateTime, DateTime>> weekends;
         private readonly Employee schoolEmployee;
-        private Dictionary<Employee, int> workingHoursLeft;
+        private Dictionary<Employee, decimal> workingHoursLeft;
         private Dictionary<Employee, Tuple<DateTime, DateTime>> weekendsOff;
-        private Tuple<Dictionary<Employee, Tuple<DateTime, DateTime>>, int> bestCombination;
+        private Tuple<Dictionary<Employee, Tuple<DateTime, DateTime>>, decimal> bestCombination;
 
         public TimetableGenerator(Timetable timetable, IEnumerable<Employee> employees, IHolidays holidays)
         {
@@ -27,10 +27,10 @@ namespace Portierniaktosiedzi.Models
             weekendsOff = new Dictionary<Employee, Tuple<DateTime, DateTime>>();
             weekends = timetable.Month.GetWeekendTuples().ToList();
             schoolEmployee = new Employee(float.MaxValue, Gender.Woman, "Pracownik szkoly");
-            bestCombination = Tuple.Create(weekendsOff, int.MaxValue);
+            bestCombination = Tuple.Create(weekendsOff, decimal.MaxValue);
         }
 
-        public IReadOnlyDictionary<Employee, int> WorkingHoursLeft => workingHoursLeft;
+        public IReadOnlyDictionary<Employee, decimal> WorkingHoursLeft => workingHoursLeft;
 
         public bool Generate()
         {
