@@ -32,8 +32,15 @@ namespace Portierniaktosiedzi.Models
             this.leftArray = (T[])leftArray.Clone();
         }
 
+        public int Length => rightArray.Length + leftArray.Length;
+
+        public int RightArrayLength => rightArray.Length;
+
+        public int LeftArrayLength => leftArray.Length;
+
         /// <summary>
         /// Returns the T, assuming that values greater than 0 belong to the rightArray array and values lower or equal 0 to the leftArray.
+        /// leftArray indexing uses absolute value. negativeArray[-1] -> leftArr[1]
         /// </summary>
         /// <param name="index">Values from minus leftArray.Length-1 to rightArray.Length</param>
         public T this[int index]
