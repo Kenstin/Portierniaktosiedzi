@@ -1,4 +1,5 @@
-﻿using Microsoft.Office.Interop.Excel;
+﻿using System.Globalization;
+using Microsoft.Office.Interop.Excel;
 using Portierniaktosiedzi.Models;
 
 namespace Portierniaktosiedzi.Models
@@ -9,13 +10,27 @@ namespace Portierniaktosiedzi.Models
         private Workbook workbook;
         private Worksheet worksheet;
 
-        public SaveAsXlsx(string path, /*NegativeArray<Day> list,*/ string name/* int month, int year*/)
+        public SaveAsXlsx(string path, /*NegativeArray<Day> list, */string name, int month, int year)
         {
+            try
+            {
+                if (System.IO.File.Exists(path + "\\" + name + ".xlsx"))
+                {
+                    System.IO.File.Delete(path + "\\" + name + ".xlsx");
+                }
+            }
+            catch (System.IO.IOException)
+            {
+                System.Windows.MessageBox.Show("Plik jest aktualnie w użyciu, proszę go wyłączyć");
+                return;
+            }
+
             timetable = new Application();
             workbook = timetable.Workbooks.Add(XlWBATemplate.xlWBATWorksheet);
-            worksheet = (Worksheet)workbook.Worksheets[0];
+            worksheet = (Worksheet)workbook.Worksheets[1];
             worksheet.Name = "Harmonogram";
             GenerateTemplateSheet();
+            FillTemplateSheet(month, year);
             object missing = System.Reflection.Missing.Value;
             workbook.SaveAs(
                         Filename: path + "\\" + name,
@@ -25,7 +40,7 @@ namespace Portierniaktosiedzi.Models
                         ReadOnlyRecommended: false,
                         CreateBackup: false,
                         AccessMode: XlSaveAsAccessMode.xlNoChange,
-                        ConflictResolution: missing,
+                        ConflictResolution: XlSaveConflictResolution.xlUserResolution,
                         AddToMru: missing,
                         TextCodepage: missing,
                         TextVisualLayout: missing,
@@ -41,7 +56,7 @@ namespace Portierniaktosiedzi.Models
 
         private void AdjustWidth()
         {
-            int[] tab = new int[] { 14, 13, 17, 17, 17, 17, 17, 17, 17, 17, 17 };
+            int[] tab = new int[] { 16, 13, 17, 17, 17, 17, 17, 17, 17, 17, 17 };
             for (int i = 0; i < tab.Length; i++)
             {
                 Range columnrange = (Range)worksheet.Cells[1, i + 1];
@@ -55,11 +70,10 @@ namespace Portierniaktosiedzi.Models
         private void MergeRows()
         {
             Range(2, 1, 10, 1);
-            Range(11, 1, 41, 1);
+            Range(11, 1, 34, 1);
             for (int i = 2; i <= 11; i++)
             {
                 Range(2, i, 3, i);
-                Range(33, i, 41, i);
             }
         }
 
@@ -75,21 +89,49 @@ namespace Portierniaktosiedzi.Models
             AlignCenter("B2");
             worksheet.Cells[2, 3] = "Dzień";
             AlignCenter("C2");
-            worksheet.Cells[41, 3] = "Ilość dni roboczych";
-            AlignCenter("C41");
-            worksheet.Range["C41"].WrapText = true;
-            worksheet.Cells[2, 9] = "6.00 - 14.00";
-            AlignCenter("I2");
-            worksheet.Cells[2, 10] = "14.00 - 22.00";
-            AlignCenter("J2");
-            worksheet.Cells[2, 11] = "22.00 - 6.00";
-            AlignCenter("K2");
+            worksheet.Cells[2, 4] = "1 zmiana";
+            AlignCenter("D2");
+            worksheet.Cells[2, 5] = "2 zmiana";
+            AlignCenter("E2");
+            worksheet.Cells[2, 6] = "3 zmiana";
+            AlignCenter("F2");
         }
 
         private void AlignCenter(string cell)
         {
             worksheet.Range[cell].HorizontalAlignment = XlHAlign.xlHAlignCenter;
             worksheet.Range[cell].VerticalAlignment = XlHAlign.xlHAlignCenter;
+        }
+
+        private void FillTemplateSheet(/*NegativeArray<Day> list, */int month, int year)
+        {
+            SetMonthAndYear(month, year);
+        }
+
+        private void SetMonthAndYear(int month, int year)
+        {
+            worksheet.Cells[2, 1] = "Miesiąc :\n" + CultureInfo.CreateSpecificCulture("pl").DateTimeFormat.GetMonthName(month).ToString();
+            worksheet.Cells[11, 1] = "Harmonogram\ndyżurów\nportierni:\nrok\n" + year.ToString();
+            AlignCenter("A2");
+            AlignCenter("A11");
+            SetDaysInMonth(month, year);
+            DaysInWeek(month, year);
+        }
+
+        private void SetDaysInMonth(int month, int year)
+        {
+            for (int i = 1; i <= System.DateTime.DaysInMonth(year, month); i++)
+            {
+                    worksheet.Cells[3 + i, 2] = i.ToString() + " " + month.ToString().PadLeft(2, '0');
+            }
+        }
+
+        private void DaysInWeek(int month, int year)
+        {
+            for (int i = 1; i <= System.DateTime.DaysInMonth(year, month); i++)
+            {
+                worksheet.Cells[i + 3, 3] = CultureInfo.CreateSpecificCulture("pl").DateTimeFormat.GetDayName(new System.DateTime(year, month, i).DayOfWeek);
+            }
         }
     }
 }
