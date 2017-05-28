@@ -600,6 +600,7 @@
     <Rule Id="SA1133" Action="Hidden" />
     <Rule Id="SA1136" Action="Hidden" />
     <Rule Id="SA1200" Action="None" />
+    <Rule Id="SA1305" Action="Warning" />
     <Rule Id="SA1400" Action="Hidden" />
     <Rule Id="SA1407" Action="None" />
     <Rule Id="SA1413" Action="Hidden" />
