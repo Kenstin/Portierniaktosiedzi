@@ -74,7 +74,6 @@ namespace Portierniaktosiedzi.Models
             for (int i = 2; i <= 11; i++)
             {
                 Range(2, i, 3, i);
-
             }
         }
 
