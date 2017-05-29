@@ -19,5 +19,22 @@ namespace Portierniaktosiedzi.Extensions
 
             return freeDays;
         }
+
+        public static DateTime Clone(this DateTime dateTime)
+        {
+            return new DateTime(dateTime.Ticks);
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Design", "CA1006:DoNotNestGenericTypesInMemberSignatures", Justification = "Reviewed.")]
+        public static IEnumerable<Tuple<DateTime, DateTime>> GetWeekendTuples(this DateTime date)
+        {
+            foreach (var day in date.GetSaturdaysAndSundays())
+            {
+                if (day.DayOfWeek == DayOfWeek.Saturday && day.AddDays(1).DayOfWeek == DayOfWeek.Sunday)
+                {
+                    yield return Tuple.Create(day, day.AddDays(1));
+                }
+            }
+        }
     }
 }
