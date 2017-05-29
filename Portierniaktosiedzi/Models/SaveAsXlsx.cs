@@ -31,20 +31,13 @@ namespace Portierniaktosiedzi.Models
             worksheet.Name = "Harmonogram";
             GenerateTemplateSheet();
             FillTemplateSheet(month, year);
-            object missing = System.Reflection.Missing.Value;
             workbook.SaveAs(
                         Filename: path + "\\" + name,
                         FileFormat: XlFileFormat.xlOpenXMLWorkbook,
-                        Password: missing,
-                        WriteResPassword: missing,
                         ReadOnlyRecommended: false,
                         CreateBackup: false,
                         AccessMode: XlSaveAsAccessMode.xlNoChange,
-                        ConflictResolution: XlSaveConflictResolution.xlUserResolution,
-                        AddToMru: missing,
-                        TextCodepage: missing,
-                        TextVisualLayout: missing,
-                        Local: missing);
+                        ConflictResolution: XlSaveConflictResolution.xlUserResolution);
         }
 
         private void GenerateTemplateSheet()
@@ -122,7 +115,7 @@ namespace Portierniaktosiedzi.Models
         {
             for (int i = 1; i <= System.DateTime.DaysInMonth(year, month); i++)
             {
-                    worksheet.Cells[3 + i, 2] = i.ToString() + " " + month.ToString().PadLeft(2, '0');
+                    worksheet.Cells[3 + i, 2] = "'" + i.ToString() + "." + month.ToString().PadLeft(2, '0');
             }
         }
 
