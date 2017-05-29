@@ -68,7 +68,7 @@ namespace Portierniaktosiedzi.Models
         {
             Range(2, 1, 10, 1);
             Range(11, 1, 34, 1);
-            for (int i = 2; i <= 11; i++)
+            for (int i = 2; i <= 6; i++)
             {
                 Range(2, i, 3, i);
             }
