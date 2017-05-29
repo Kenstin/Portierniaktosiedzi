@@ -105,8 +105,8 @@ namespace Portierniaktosiedzi.Models
 
         private void SetMonthAndYear(int month, int year)
         {
-            worksheet.Cells[2, 1] = "Miesiąc :\n" + CultureInfo.CreateSpecificCulture("pl").DateTimeFormat.GetMonthName(month).ToString();
-            worksheet.Cells[11, 1] = "Harmonogram\ndyżurów\nportierni:\nrok\n" + year.ToString();
+            worksheet.Cells[2, 1] = "Miesiąc :\n" + CultureInfo.CreateSpecificCulture("pl").DateTimeFormat.GetMonthName(month);
+            worksheet.Cells[11, 1] = "Harmonogram\ndyżurów\nportierni:\nrok\n" + year;
             AlignCenter("A2");
             AlignCenter("A11");
             SetDaysInMonth(month, year);
@@ -117,7 +117,7 @@ namespace Portierniaktosiedzi.Models
         {
             for (int i = 1; i <= System.DateTime.DaysInMonth(year, month); i++)
             {
-                    worksheet.Cells[3 + i, 2] = "'" + i.ToString() + "." + month.ToString().PadLeft(2, '0');
+                    worksheet.Cells[3 + i, 2] = "'" + i + "." + month.ToString().PadLeft(2, '0');
             }
         }
 
