@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using System.Collections.Generic;
+using System.Globalization;
 using Microsoft.Office.Interop.Excel;
 using Portierniaktosiedzi.Models;
 
@@ -10,7 +11,7 @@ namespace Portierniaktosiedzi.Models
         private Workbook workbook;
         private Worksheet worksheet;
 
-        public SaveAsXlsx(string path, NegativeArray<Day> list, string name, int month, int year)
+        public SaveAsXlsx(string path, NegativeArray<Day> list, Dictionary<Employee, decimal> leftworkinghours, string name, int month, int year)
         {
             try
             {
@@ -29,7 +30,7 @@ namespace Portierniaktosiedzi.Models
             worksheet = (Worksheet)workbook.Worksheets[1];
             worksheet.Name = "Harmonogram";
             GenerateTemplateSheet();
-            FillTemplateSheet(list, month, year);
+            FillTemplateSheet(list, leftworkinghours, month, year);
             workbook.SaveAs(
                         Filename: path + "\\" + name,
                         FileFormat: XlFileFormat.xlOpenXMLWorkbook,
@@ -100,10 +101,11 @@ namespace Portierniaktosiedzi.Models
             worksheet.Range[cell].VerticalAlignment = XlHAlign.xlHAlignCenter;
         }
 
-        private void FillTemplateSheet(NegativeArray<Day> list, int month, int year)
+        private void FillTemplateSheet(NegativeArray<Day> list, Dictionary<Employee, decimal> workinghours, int month, int year)
         {
             SetMonthAndYear(month, year);
             FillEmployees(list, month, year);
+            FillWorkingHours(workinghours);
         }
 
         private void SetMonthAndYear(int month, int year)
@@ -145,6 +147,16 @@ namespace Portierniaktosiedzi.Models
                 {
                     worksheet.Cells[day + 3, shift + 3] = list[day].Shifts[shift].Name;
                 }
+            }
+        }
+
+        private void FillWorkingHours(Dictionary<Employee, decimal> workinghours)
+        {
+            int x = 8, y = 4;
+            foreach (var i in workinghours)
+            {
+                worksheet.Cells[y, x + 1] = i.Key.Name;
+                worksheet.Cells[y++, x++] = i.Value;
             }
         }
     }
