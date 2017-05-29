@@ -10,7 +10,7 @@ namespace Portierniaktosiedzi.Models
         private Workbook workbook;
         private Worksheet worksheet;
 
-        public SaveAsXlsx(string path, /*NegativeArray<Day> list, */string name, int month, int year)
+        public SaveAsXlsx(string path, NegativeArray<Day> list, string name, int month, int year)
         {
             try
             {
@@ -29,7 +29,7 @@ namespace Portierniaktosiedzi.Models
             worksheet = (Worksheet)workbook.Worksheets[1];
             worksheet.Name = "Harmonogram";
             GenerateTemplateSheet();
-            FillTemplateSheet(month, year);
+            FillTemplateSheet(list, month, year);
             workbook.SaveAs(
                         Filename: path + "\\" + name,
                         FileFormat: XlFileFormat.xlOpenXMLWorkbook,
@@ -40,6 +40,8 @@ namespace Portierniaktosiedzi.Models
             workbook.Close();
             timetable.Quit();
             System.Runtime.InteropServices.Marshal.ReleaseComObject(timetable);
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(workbook);
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(worksheet);
         }
 
         private void GenerateTemplateSheet()
@@ -51,7 +53,7 @@ namespace Portierniaktosiedzi.Models
 
         private void AdjustWidth()
         {
-            int[] tab = new int[] { 16, 13, 17, 17, 17, 17, 17, 17, 17, 17, 17 };
+            int[] tab = new int[] { 16, 13, 17, 17, 17, 17 };
             for (int i = 0; i < tab.Length; i++)
             {
                 Range columnrange = (Range)worksheet.Cells[1, i + 1];
@@ -98,9 +100,10 @@ namespace Portierniaktosiedzi.Models
             worksheet.Range[cell].VerticalAlignment = XlHAlign.xlHAlignCenter;
         }
 
-        private void FillTemplateSheet(/*NegativeArray<Day> list, */int month, int year)
+        private void FillTemplateSheet(NegativeArray<Day> list, int month, int year)
         {
             SetMonthAndYear(month, year);
+            FillEmployees(list, month, year);
         }
 
         private void SetMonthAndYear(int month, int year)
@@ -126,6 +129,22 @@ namespace Portierniaktosiedzi.Models
             for (int i = 1; i <= System.DateTime.DaysInMonth(year, month); i++)
             {
                 worksheet.Cells[i + 3, 3] = CultureInfo.CreateSpecificCulture("pl").DateTimeFormat.GetDayName(new System.DateTime(year, month, i).DayOfWeek);
+            }
+        }
+
+        private void FillEmployees(NegativeArray<Day> list, int month, int year)
+        {
+            for (int shift = 0; shift <= 2; shift++)
+            {
+                worksheet.Cells[1, 3 + shift] = list[0].Shifts[shift].Name;
+            }
+
+            for (int day = 1; day <= System.DateTime.DaysInMonth(year, month); day++)
+            {
+                for (int shift = 0; shift <= 2; shift++)
+                {
+                    worksheet.Cells[day + 3, shift + 3] = list[day].Shifts[shift].Name;
+                }
             }
         }
     }
