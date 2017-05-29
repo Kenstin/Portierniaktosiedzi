@@ -37,6 +37,9 @@ namespace Portierniaktosiedzi.Models
                         CreateBackup: false,
                         AccessMode: XlSaveAsAccessMode.xlNoChange,
                         ConflictResolution: XlSaveConflictResolution.xlUserResolution);
+            workbook.Close();
+            timetable.Quit();
+            System.Runtime.InteropServices.Marshal.ReleaseComObject(timetable);
         }
 
         private void GenerateTemplateSheet()
