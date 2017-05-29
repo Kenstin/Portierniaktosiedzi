@@ -138,14 +138,14 @@ namespace Portierniaktosiedzi.Models
         {
             for (int shift = 0; shift <= 2; shift++)
             {
-                worksheet.Cells[1, 3 + shift] = list[0].Shifts[shift].Name;
+                worksheet.Cells[1, 4 + shift] = list[0].Shifts[shift].Name;
             }
 
             for (int day = 1; day <= System.DateTime.DaysInMonth(year, month); day++)
             {
                 for (int shift = 0; shift <= 2; shift++)
                 {
-                    worksheet.Cells[day + 3, shift + 3] = list[day].Shifts[shift].Name;
+                    worksheet.Cells[day + 3, shift + 4] = list[day].Shifts[shift].Name;
                 }
             }
         }
@@ -156,7 +156,7 @@ namespace Portierniaktosiedzi.Models
             foreach (var i in workinghours)
             {
                 worksheet.Cells[y, x + 1] = i.Key.Name;
-                worksheet.Cells[y++, x++] = i.Value;
+                worksheet.Cells[y++, x] = i.Value;
             }
         }
     }
