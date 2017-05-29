@@ -19,10 +19,9 @@ namespace Portierniaktosiedzi.Models
                     System.IO.File.Delete(path + "\\" + name + ".xlsx");
                 }
             }
-            catch (System.IO.IOException)
+            catch (System.IO.IOException e)
             {
-                System.Windows.MessageBox.Show("Plik jest aktualnie w użyciu, proszę go wyłączyć");
-                return;
+                throw new System.IO.IOException("Access to the file denied.", e);
             }
 
             timetable = new Application();
