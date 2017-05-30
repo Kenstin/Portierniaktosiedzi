@@ -13,9 +13,9 @@ namespace Portierniaktosiedzi.Tests.Models
         [InlineData(4, 2017, 0.5, 76)]
         [InlineData(4, 2017, 0.6, 91.2)]
         [InlineData(11, 2017, 1, 168)]
-        public void GetWorkingHours(int month, int year, double posts, decimal expected)
+        public void GetWorkingHours(int month, int year, decimal posts, decimal expected)
         {
-            var employee = new Employee((float) posts, Gender.Man, "Placeholder");
+            var employee = new Employee(posts, Gender.Man, "Placeholder");
             Assert.Equal(expected, employee.GetWorkingHours(month, year, new Holidays(year)));
         }
     }
