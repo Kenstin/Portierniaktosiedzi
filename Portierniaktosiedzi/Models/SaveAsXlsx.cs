@@ -4,16 +4,28 @@ using Microsoft.Office.Interop.Excel;
 
 namespace Portierniaktosiedzi.Models
 {
-    public class SaveAsXlsx
+    public class SaveAsXlsx : IDisposable
     {
         private readonly Application excelApplication;
         private readonly Timetable timetable;
         private Worksheet worksheet;
+        private bool disposedValue; // To detect redundant calls
 
         public SaveAsXlsx(Timetable timetable)
         {
             excelApplication = new Application();
             this.timetable = timetable;
+        }
+
+        ~SaveAsXlsx()
+        {
+            Dispose(false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         public void SaveAs(string path)
@@ -54,6 +66,21 @@ namespace Portierniaktosiedzi.Models
                 System.Runtime.InteropServices.Marshal.ReleaseComObject(worksheet);
                 System.Runtime.InteropServices.Marshal.ReleaseComObject(workbook);
                 System.Runtime.InteropServices.Marshal.ReleaseComObject(workbooks);
+            }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    worksheet = null;
+                }
+
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApplication);
+
+                disposedValue = true;
             }
         }
 
