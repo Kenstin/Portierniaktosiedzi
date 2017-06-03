@@ -1,0 +1,32 @@
+﻿<Window x:Class="Portierniaktosiedzi.Views.AddEmployeeView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Portierniaktosiedzi"
+        xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:viewModels="clr-namespace:Portierniaktosiedzi.ViewModels"
+        xmlns:converters="clr-namespace:Portierniaktosiedzi.Converters"
+        xmlns:models="clr-namespace:Portierniaktosiedzi.Models"
+        mc:Ignorable="d"
+        Title="Dodaj pracownika" Height="159.392" Width="247.62" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" AutomationProperties.IsRequiredForForm="True" ShowInTaskbar="False">
+    <Grid>
+        <xctk:WatermarkTextBox x:Name="EmployeeName" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" MaxLines="1" Watermark="Imię i nazwisko"/>
+        <xctk:DecimalUpDown x:Name="Posts" Value="{Binding Posts}" HorizontalAlignment="Left" Height="23" Margin="10,57,0,0" VerticalAlignment="Top" Width="120" Watermark="Etat" Maximum="2.0" Minimum="0.1" Increment="0.1" UpdateValueOnEnterKey="True" CultureInfo="pl-PL" DefaultValue="1" DisplayDefaultValueOnEmptyText="True"/>
+        <Button x:Name="Ok" Content="OK" HorizontalAlignment="Left" Margin="10,85,0,0" VerticalAlignment="Top" Width="75" IsDefault="True"/>
+        <Button x:Name="ButtonCancel" Content="Anuluj" HorizontalAlignment="Left" Margin="142,85,0,0" VerticalAlignment="Top" Width="77" IsCancel="True"/>
+        <Label Content="Etat" HorizontalAlignment="Left" Margin="10,33,0,0" VerticalAlignment="Top" Width="120" Height="24" FontStyle="Italic"/>
+        <StackPanel HorizontalAlignment="Left" Height="48" Margin="142,9,0,0" VerticalAlignment="Top" Width="90">
+            <StackPanel.Resources>
+                <converters:EnumToBooleanConverter x:Key="EnumToBooleanConverter" />
+            </StackPanel.Resources>
+
+            <RadioButton x:Name="RadioButtonMan" Content="Mężczyzna" HorizontalAlignment="Left" VerticalAlignment="Top" IsChecked="{Binding Path=Gender, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:Gender.Man}}"/>
+            <RadioButton x:Name="RadioButtonWoman" Content="Kobieta" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0,5,0,0" IsChecked="{Binding Path=Gender, Converter={StaticResource EnumToBooleanConverter}, ConverterParameter={x:Static models:Gender.Woman}}"/>
+        </StackPanel>
+
+    </Grid>
+    <Window.DataContext>
+        <viewModels:AddEmployeeViewModel/>
+    </Window.DataContext>
+</Window>

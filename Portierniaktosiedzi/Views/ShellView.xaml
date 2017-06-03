@@ -1,0 +1,9 @@
+<Window x:Name="Portierniaktosiedzi" x:Class="Portierniaktosiedzi.Views.ShellView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" Height="377" Width="562">
+
+    <Grid Background="White">
+        <Button x:Name="AddEmployee" Content="Dodaj osobe" HorizontalAlignment="Left" VerticalAlignment="Top" Width="78" Margin="26,49,0,0" Height="25"/>
+    </Grid>
+
+</Window>
