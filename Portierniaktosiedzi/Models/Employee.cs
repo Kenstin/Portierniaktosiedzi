@@ -36,5 +36,10 @@ namespace Portierniaktosiedzi.Models
 
             return Posts * workingdays * 8;
         }
+
+        public override string ToString()
+        {
+            return Name;
+        }
     }
 }

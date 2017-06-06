@@ -8,20 +8,26 @@ namespace Portierniaktosiedzi.ViewModels
     public class ShellViewModel : PropertyChangedBase, IShell
     {
         private readonly IWindowManager windowManager;
-        private readonly List<Employee> employees;
 
         public ShellViewModel(IWindowManager windowManager)
         {
             this.windowManager = windowManager;
-            employees = new List<Employee>();
+            Employees = new BindableCollection<Employee>();
+            Days = new BindableCollection<DayWithDate>();
         }
+
+        public DateTime Date { get; set; } = DateTime.Now;
+
+        public BindableCollection<Employee> Employees { get; }
+
+        public BindableCollection<DayWithDate> Days { get; }
 
         public void AddEmployee()
         {
             var employeeViewModel = new AddEmployeeViewModel();
             if (windowManager.ShowDialog(employeeViewModel) ?? false)
             {
-                employees.Add(new Employee(employeeViewModel.Posts, employeeViewModel.Gender, employeeViewModel.EmployeeName));
+                Employees.Add(new Employee(employeeViewModel.Posts, employeeViewModel.Gender, employeeViewModel.EmployeeName));
             }
         }
 

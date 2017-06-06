@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using Caliburn.Micro;
 using Portierniaktosiedzi.ViewModels;
+using Xceed.Wpf.Toolkit;
 
 namespace Portierniaktosiedzi
 {
@@ -17,10 +18,11 @@ namespace Portierniaktosiedzi
         protected override void Configure()
         {
             container = new SimpleContainer();
-
             container.Singleton<IWindowManager, WindowManager>();
             container.Singleton<IEventAggregator, EventAggregator>();
             container.PerRequest<IShell, ShellViewModel>();
+
+            ConventionManager.AddElementConvention<DateTimeUpDown>(DateTimeUpDown.ValueProperty, "Value", "ValueChangedEvent"); //to ma sens xD?
         }
 
         protected override object GetInstance(Type service, string key)
