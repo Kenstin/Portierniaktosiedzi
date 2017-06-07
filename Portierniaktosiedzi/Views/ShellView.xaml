@@ -8,7 +8,30 @@
         Height="437.148" Width="597.444">
 
     <Window.Resources>
+        <converters:HideEmployeeConverter x:Key="HideEmployeeConverter"/>
         <converters:HideSchoolStaffConverter x:Key="HideSchoolStaffConverter"/>
+        <Style x:Key="HideDeletedEmployees" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}">
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ComboBoxItem" BasedOn="{StaticResource {x:Type ComboBoxItem}}">
+                        <Style.Triggers>
+                            <DataTrigger Value="True">
+                                <DataTrigger.Binding>
+                                    <MultiBinding Converter="{StaticResource HideEmployeeConverter}">
+                                        <Binding Path="."/>
+                                        <Binding RelativeSource="{RelativeSource AncestorType={x:Type Window}}" Path="DataContext.DeletedEmployees"/>
+                                    </MultiBinding>
+                                </DataTrigger.Binding>
+                                <DataTrigger.Setters>
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger.Setters>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
         <Style x:Key="HideSchoolStaff" TargetType="{x:Type DataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}">
             <Setter Property="ItemContainerStyle">
                 <Setter.Value>
@@ -30,18 +53,18 @@
     </Window.Resources>
     
     <Grid Background="White">
-        <Button x:Name="AddEmployee" Content="Dodaj osobe" HorizontalAlignment="Left" VerticalAlignment="Top" Width="78" Margin="10,39,0,0" Height="25"/>
-        <Button x:Name="GenerateTimetable" Content="Wygeneruj" HorizontalAlignment="Left" Margin="10,124,0,0" VerticalAlignment="Top" Width="114" Height="39"/>
+        <Button x:Name="AddEmployee" Content="Dodaj pracownika" HorizontalAlignment="Left" VerticalAlignment="Top" Width="114" Margin="10,39,0,0" Height="25"/>
         <DataGrid x:Name="Employees" Style="{StaticResource HideSchoolStaff}" HorizontalAlignment="Left" Height="110" Margin="180,39,0,0" VerticalAlignment="Top" Width="364" CanUserDeleteRows="False"/>
+        <Button x:Name="GenerateTimetable" Content="Wygeneruj" HorizontalAlignment="Left" Margin="10,171,0,0" VerticalAlignment="Top" Width="114" Height="39"/>
         <Label Content="Pracownicy" HorizontalAlignment="Left" Margin="180,10,0,0" VerticalAlignment="Top" Width="172" Height="29" FontSize="16"/>
-        <xctk:DateTimeUpDown x:Name="Date"  Watermark="Data" HorizontalAlignment="Left" Margin="10,73,0,0" VerticalAlignment="Top" Width="154" Height="26" FontSize="14" CultureInfo="pl-PL" Format="YearMonth" Minimum="12/31/1000 23:59:00" DisplayDefaultValueOnEmptyText="True" UpdateValueOnEnterKey="True"/>
+        <xctk:DateTimeUpDown x:Name="Date"  Watermark="Data" HorizontalAlignment="Left" Margin="8,123,0,0" VerticalAlignment="Top" Width="154" Height="26" FontSize="14" CultureInfo="pl-PL" Format="YearMonth" Minimum="12/31/1000 23:59:00" DisplayDefaultValueOnEmptyText="True" UpdateValueOnEnterKey="True"/>
         <DataGrid HorizontalAlignment="Left" Height="198" Margin="180,171,0,0" VerticalAlignment="Top" Width="364" ItemsSource="{Binding Days}" AutoGenerateColumns="False" SelectionMode="Single">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Dzien" Binding="{Binding Date.Day}" IsReadOnly="True"/>
                 <DataGridTemplateColumn Header="6-14">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ComboBox ItemsSource="{Binding DataContext.Employees, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
+                            <ComboBox Style="{StaticResource HideDeletedEmployees}" ItemsSource="{Binding DataContext.ComboBoxEmployees, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
                                       SelectedValue="{Binding Shifts[0], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -49,7 +72,7 @@
                 <DataGridTemplateColumn Header="14-22">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ComboBox ItemsSource="{Binding DataContext.Employees, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
+                            <ComboBox Style="{StaticResource HideDeletedEmployees}" ItemsSource="{Binding DataContext.ComboBoxEmployees, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
                                       SelectedValue="{Binding Shifts[1], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
@@ -57,7 +80,7 @@
                 <DataGridTemplateColumn Header="22-6">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <ComboBox ItemsSource="{Binding DataContext.Employees, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
+                            <ComboBox Style="{StaticResource HideDeletedEmployees}" ItemsSource="{Binding DataContext.ComboBoxEmployees, RelativeSource={RelativeSource AncestorType={x:Type Window}}}" 
                                       SelectedItem="{Binding Shifts[2], Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}">
                             </ComboBox>
                         </DataTemplate>
@@ -65,5 +88,6 @@
                 </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
+        <Button Name="DeleteEmployee" Content="Usun pracownika" HorizontalAlignment="Left" Margin="10,83,0,0" VerticalAlignment="Top" Width="114" Height="26"/>
     </Grid>
 </Window>
