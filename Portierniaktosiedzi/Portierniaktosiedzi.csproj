@@ -112,7 +112,9 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\EnumToBooleanConverter.cs" />
+    <Compile Include="Converters\HideSchoolStaffConverter.cs" />
     <Compile Include="Models\DayWithDate.cs" />
+    <Compile Include="Models\SchoolStaff.cs" />
     <Compile Include="ViewModels\AddEmployeeViewModel.cs" />
     <Compile Include="AppBootstrapper.cs" />
     <Compile Include="ViewModels\IShell.cs" />

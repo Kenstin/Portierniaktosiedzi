@@ -20,7 +20,7 @@ namespace Portierniaktosiedzi.Models
 
         public decimal Posts { get; }
 
-        public decimal GetWorkingHours(int month, int year, IHolidays holidays)
+        public virtual decimal GetWorkingHours(int month, int year, IHolidays holidays)
         {
             int workingdays = DateTime.DaysInMonth(year, month);
 

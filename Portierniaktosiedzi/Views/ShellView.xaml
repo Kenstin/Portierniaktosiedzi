@@ -3,13 +3,36 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:cal="http://www.caliburnproject.org"
     xmlns:xctk="http://schemas.xceed.com/wpf/xaml/toolkit"
     xmlns:viewModels="clr-namespace:Portierniaktosiedzi.ViewModels"
+    xmlns:converters="clr-namespace:Portierniaktosiedzi.Converters"
     x:Name="Portierniaktosiedzi" x:Class="Portierniaktosiedzi.Views.ShellView"
         Height="437.148" Width="597.444">
 
+    <Window.Resources>
+        <converters:HideSchoolStaffConverter x:Key="HideSchoolStaffConverter"/>
+        <Style x:Key="HideSchoolStaff" TargetType="{x:Type DataGrid}" BasedOn="{StaticResource {x:Type DataGrid}}">
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}">
+                        <Style.Triggers>
+                            <DataTrigger Value="True">
+                                <DataTrigger.Binding>
+                                    <Binding Path="." Converter="{StaticResource HideSchoolStaffConverter}"></Binding>
+                                </DataTrigger.Binding>
+                                <DataTrigger.Setters>
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger.Setters>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </Window.Resources>
+    
     <Grid Background="White">
         <Button x:Name="AddEmployee" Content="Dodaj osobe" HorizontalAlignment="Left" VerticalAlignment="Top" Width="78" Margin="10,39,0,0" Height="25"/>
-        <DataGrid x:Name="Employees" HorizontalAlignment="Left" Height="110" Margin="180,39,0,0" VerticalAlignment="Top" Width="364"/>
         <Button x:Name="GenerateTimetable" Content="Wygeneruj" HorizontalAlignment="Left" Margin="10,124,0,0" VerticalAlignment="Top" Width="114" Height="39"/>
+        <DataGrid x:Name="Employees" Style="{StaticResource HideSchoolStaff}" HorizontalAlignment="Left" Height="110" Margin="180,39,0,0" VerticalAlignment="Top" Width="364" CanUserDeleteRows="False"/>
         <Label Content="Pracownicy" HorizontalAlignment="Left" Margin="180,10,0,0" VerticalAlignment="Top" Width="172" Height="29" FontSize="16"/>
         <xctk:DateTimeUpDown x:Name="Date"  Watermark="Data" HorizontalAlignment="Left" Margin="10,73,0,0" VerticalAlignment="Top" Width="154" Height="26" FontSize="14" CultureInfo="pl-PL" Format="YearMonth" Minimum="12/31/1000 23:59:00" DisplayDefaultValueOnEmptyText="True" UpdateValueOnEnterKey="True"/>
         <DataGrid HorizontalAlignment="Left" Height="198" Margin="180,171,0,0" VerticalAlignment="Top" Width="364" ItemsSource="{Binding Days}" AutoGenerateColumns="False" SelectionMode="Single">
