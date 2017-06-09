@@ -1,22 +1,40 @@
-﻿using System.Globalization;
+﻿using System;
+using System.Globalization;
 using Microsoft.Office.Interop.Excel;
-using Portierniaktosiedzi.Models;
 
 namespace Portierniaktosiedzi.Models
 {
-    class SaveAsXlsx
+    public class SaveAsXlsx : IDisposable
     {
-        private static Application timetable;
-        private Workbook workbook;
+        private readonly Application excelApplication;
+        private readonly Timetable timetable;
         private Worksheet worksheet;
+        private bool disposedValue; // To detect redundant calls
 
-        public SaveAsXlsx(string path, /*NegativeArray<Day> list, */string name, int month, int year)
+        public SaveAsXlsx(Timetable timetable)
+        {
+            excelApplication = new Application();
+            this.timetable = timetable;
+        }
+
+        ~SaveAsXlsx()
+        {
+            Dispose(false);
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
+
+        public void SaveAs(string path)
         {
             try
             {
-                if (System.IO.File.Exists(path + "\\" + name + ".xlsx"))
+                if (System.IO.File.Exists(path))
                 {
-                    System.IO.File.Delete(path + "\\" + name + ".xlsx");
+                    System.IO.File.Delete(path);
                 }
             }
             catch (System.IO.IOException e)
@@ -24,22 +42,46 @@ namespace Portierniaktosiedzi.Models
                 throw new System.IO.IOException("Access to the file denied.", e);
             }
 
-            timetable = new Application();
-            workbook = timetable.Workbooks.Add(XlWBATemplate.xlWBATWorksheet);
-            worksheet = (Worksheet)workbook.Worksheets[1];
-            worksheet.Name = "Harmonogram";
-            GenerateTemplateSheet();
-            FillTemplateSheet(month, year);
-            workbook.SaveAs(
-                        Filename: path + "\\" + name,
-                        FileFormat: XlFileFormat.xlOpenXMLWorkbook,
-                        ReadOnlyRecommended: false,
-                        CreateBackup: false,
-                        AccessMode: XlSaveAsAccessMode.xlNoChange,
-                        ConflictResolution: XlSaveConflictResolution.xlUserResolution);
-            workbook.Close();
-            timetable.Quit();
-            System.Runtime.InteropServices.Marshal.ReleaseComObject(timetable);
+            var workbooks = excelApplication.Workbooks;
+            var workbook = workbooks.Add(XlWBATemplate.xlWBATWorksheet);
+
+            try
+            {
+                worksheet = (Worksheet)workbook.Worksheets[1];
+                worksheet.Name = "Harmonogram";
+                GenerateTemplateSheet();
+                FillTemplateSheet();
+                workbook.SaveAs(
+                    Filename: path,
+                    FileFormat: XlFileFormat.xlOpenXMLWorkbook,
+                    ReadOnlyRecommended: false,
+                    CreateBackup: false,
+                    AccessMode: XlSaveAsAccessMode.xlNoChange,
+                    ConflictResolution: XlSaveConflictResolution.xlUserResolution);
+            }
+            finally
+            {
+                workbook.Close();
+                excelApplication.Quit();
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(worksheet);
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(workbook);
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(workbooks);
+            }
+        }
+
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing)
+                {
+                    worksheet = null;
+                }
+
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(excelApplication);
+
+                disposedValue = true;
+            }
         }
 
         private void GenerateTemplateSheet()
@@ -51,14 +93,14 @@ namespace Portierniaktosiedzi.Models
 
         private void AdjustWidth()
         {
-            int[] tab = new int[] { 16, 13, 17, 17, 17, 17, 17, 17, 17, 17, 17 };
+            int[] tab = { 16, 13, 17, 17, 17, 17 };
             for (int i = 0; i < tab.Length; i++)
             {
-                Range columnrange = (Range)worksheet.Cells[1, i + 1];
+                var columnrange = (Range)worksheet.Cells[1, i + 1];
                 columnrange.Columns.ColumnWidth = tab[i];
             }
 
-            Range rowrange = (Range)worksheet.Cells[1, 1];
+            var rowrange = (Range)worksheet.Cells[1, 1];
             rowrange.Rows.RowHeight = 26;
         }
 
@@ -66,7 +108,7 @@ namespace Portierniaktosiedzi.Models
         {
             Range(2, 1, 10, 1);
             Range(11, 1, 34, 1);
-            for (int i = 2; i <= 11; i++)
+            for (int i = 2; i <= 6; i++)
             {
                 Range(2, i, 3, i);
             }
@@ -98,35 +140,74 @@ namespace Portierniaktosiedzi.Models
             worksheet.Range[cell].VerticalAlignment = XlHAlign.xlHAlignCenter;
         }
 
-        private void FillTemplateSheet(/*NegativeArray<Day> list, */int month, int year)
+        private void FillTemplateSheet()
         {
-            SetMonthAndYear(month, year);
+            SetMonthAndYear();
+            FillEmployees();
+            FillWorkingHours();
+            SetPreviousDay();
         }
 
-        private void SetMonthAndYear(int month, int year)
+        private void SetMonthAndYear()
         {
-            worksheet.Cells[2, 1] = "Miesiąc :\n" + CultureInfo.CreateSpecificCulture("pl").DateTimeFormat.GetMonthName(month);
-            worksheet.Cells[11, 1] = "Harmonogram\ndyżurów\nportierni:\nrok\n" + year;
+            worksheet.Cells[2, 1] = "Miesiąc:\n" + CultureInfo.CreateSpecificCulture("pl").DateTimeFormat.GetMonthName(timetable.Month.Month);
+            worksheet.Cells[11, 1] = "Harmonogram\ndyżurów\nportierni:\nrok\n" + timetable.Month.Year;
             AlignCenter("A2");
             AlignCenter("A11");
-            SetDaysInMonth(month, year);
-            DaysInWeek(month, year);
+            SetDaysInMonth();
+            DaysInWeek();
         }
 
-        private void SetDaysInMonth(int month, int year)
+        private void SetDaysInMonth()
         {
-            for (int i = 1; i <= System.DateTime.DaysInMonth(year, month); i++)
+            for (int i = 1; i <= DateTime.DaysInMonth(timetable.Month.Year, timetable.Month.Month); i++)
             {
-                    worksheet.Cells[3 + i, 2] = "'" + i + "." + month.ToString().PadLeft(2, '0');
+                    worksheet.Cells[3 + i, 2] = "'" + i + "." + timetable.Month.Month.ToString().PadLeft(2, '0');
             }
         }
 
-        private void DaysInWeek(int month, int year)
+        private void DaysInWeek()
         {
-            for (int i = 1; i <= System.DateTime.DaysInMonth(year, month); i++)
+            for (int i = 1; i <= DateTime.DaysInMonth(timetable.Month.Year, timetable.Month.Month); i++)
             {
-                worksheet.Cells[i + 3, 3] = CultureInfo.CreateSpecificCulture("pl").DateTimeFormat.GetDayName(new System.DateTime(year, month, i).DayOfWeek);
+                worksheet.Cells[i + 3, 3] = CultureInfo.CreateSpecificCulture("pl").DateTimeFormat.GetDayName(new DateTime(timetable.Month.Year, timetable.Month.Month, i).DayOfWeek);
             }
+        }
+
+        private void FillEmployees()
+        {
+            for (int shift = 0; shift <= 2; shift++)
+            {
+                worksheet.Cells[1, 4 + shift] = timetable.Days[0].Shifts[shift].Name;
+            }
+
+            for (int day = 1; day <= DateTime.DaysInMonth(timetable.Month.Year, timetable.Month.Month); day++)
+            {
+                for (int shift = 0; shift <= 2; shift++)
+                {
+                    worksheet.Cells[day + 3, shift + 4] = timetable.Days[day].Shifts[shift].Name;
+                }
+            }
+        }
+
+        private void FillWorkingHours()
+        {
+            int x = 8, y = 4;
+            Range(y - 1, x, y - 1, x + 1);
+            worksheet.Cells[y - 1, x] = "Pozostałe godziny";
+            AlignCenter("H3");
+
+            foreach (var i in timetable.WorkingHoursLeft)
+            {
+                worksheet.Cells[y, x + 1] = i.Key.Name;
+                worksheet.Cells[y++, x] = i.Value;
+            }
+        }
+
+        private void SetPreviousDay()
+        {
+            worksheet.Cells[1, 2] = "'" + DateTime.DaysInMonth(timetable.Month.Year, timetable.Month.Month - 1) + "." + (timetable.Month.Month - 1).ToString().PadLeft(2, '0');
+            worksheet.Cells[1, 3] = CultureInfo.CreateSpecificCulture("pl").DateTimeFormat.GetDayName(new DateTime(timetable.Month.Year, timetable.Month.Month - 1, DateTime.DaysInMonth(timetable.Month.Year, timetable.Month.Month - 1)).DayOfWeek);
         }
     }
 }
