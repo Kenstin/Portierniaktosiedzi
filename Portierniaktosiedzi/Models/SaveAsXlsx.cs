@@ -195,6 +195,7 @@ namespace Portierniaktosiedzi.Models
             int x = 8, y = 4;
             Range(y - 1, x, y - 1, x + 1);
             worksheet.Cells[y - 1, x] = "Pozostałe godziny";
+            AlignCenter("H3");
 
             foreach (var i in timetable.WorkingHoursLeft)
             {
