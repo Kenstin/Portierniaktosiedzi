@@ -198,5 +198,11 @@ namespace Portierniaktosiedzi.Models
                 worksheet.Cells[y++, x] = i.Value;
             }
         }
+
+        private void SetPreviousDay()
+        {
+            worksheet.Cells[1, 2] = DateTime.DaysInMonth(timetable.Month.Year, timetable.Month.Month - 1) + "." + (timetable.Month.Month - 1).ToString().PadLeft(2, '0');
+            worksheet.Cells[1, 3] = CultureInfo.CreateSpecificCulture("pl").DateTimeFormat.GetDayName(new DateTime(timetable.Month.Year, timetable.Month.Month - 1, DateTime.DaysInMonth(timetable.Month.Year, timetable.Month.Month - 1)).DayOfWeek);
+        }
     }
 }
