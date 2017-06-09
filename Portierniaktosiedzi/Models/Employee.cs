@@ -14,11 +14,11 @@ namespace Portierniaktosiedzi.Models
             Name = name;
         }
 
-        public string Name { get; }
+        public string Name { get; set; }
 
         public Gender Gender { get; }
 
-        public decimal Posts { get; }
+        public decimal Posts { get; set; }
 
         public virtual decimal GetWorkingHours(int month, int year, IHolidays holidays)
         {
