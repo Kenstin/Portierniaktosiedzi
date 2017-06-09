@@ -149,7 +149,7 @@ namespace Portierniaktosiedzi.Models
 
         private void SetMonthAndYear()
         {
-            worksheet.Cells[2, 1] = "Miesiąc :\n" + CultureInfo.CreateSpecificCulture("pl").DateTimeFormat.GetMonthName(timetable.Month.Month);
+            worksheet.Cells[2, 1] = "Miesiąc:\n" + CultureInfo.CreateSpecificCulture("pl").DateTimeFormat.GetMonthName(timetable.Month.Month);
             worksheet.Cells[11, 1] = "Harmonogram\ndyżurów\nportierni:\nrok\n" + timetable.Month.Year;
             AlignCenter("A2");
             AlignCenter("A11");
