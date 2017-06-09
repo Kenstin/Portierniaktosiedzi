@@ -145,6 +145,7 @@ namespace Portierniaktosiedzi.Models
             SetMonthAndYear();
             FillEmployees();
             FillWorkingHours();
+            SetPreviousDay();
         }
 
         private void SetMonthAndYear()
