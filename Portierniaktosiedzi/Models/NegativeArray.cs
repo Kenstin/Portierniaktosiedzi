@@ -12,7 +12,7 @@ namespace Portierniaktosiedzi.Models
         private readonly T[] leftArray;
 
         /// <summary>
-        /// Initializes a new instance of <see cref="NegativeArray{T}"/> class from IEnumerables.
+        /// Initializes a new instance of the <see cref="NegativeArray{T}"/> class from IEnumerables.
         /// </summary>
         /// <param name="left">IEnumerable that will be indexed with indices less than 1</param>
         /// <param name="right">IEnumerable that will be accessed with indices greater or equal 1</param>

@@ -7,18 +7,20 @@ namespace Portierniaktosiedzi.Models
 {
     public class Timetable
     {
-        public Timetable(DateTime month, Day[] daysBefore)
+        public Timetable(DateTime month, IEnumerable<Day> daysBefore)
         {
             if (month == null)
             {
                 throw new ArgumentNullException(nameof(month));
             }
 
+            var days = daysBefore.ToList();
+
             Month = month;
 
             try
             {
-                if (daysBefore.Any(day => !day.IsFull()))
+                if (days.Any(day => !day.IsFull()))
                 {
                     throw new ArgumentException("All shifts have to be assigned.");
                 }
@@ -28,12 +30,12 @@ namespace Portierniaktosiedzi.Models
                 throw new ArgumentNullException("No element can be null.", exception);
             }
 
-            if (daysBefore.Length < 6)
+            if (days.Count < 6)
             {
                 throw new ArgumentOutOfRangeException(nameof(daysBefore), "Length has to be greater than 5");
             }
 
-            Days = new NegativeArray<Day>(daysBefore, new Day[DateTime.DaysInMonth(month.Year, month.Month)]);
+            Days = new NegativeArray<Day>(days, new Day[DateTime.DaysInMonth(month.Year, month.Month)]);
 
             for (int i = 1; i <= Days.RightArrayLength; i++)
             {

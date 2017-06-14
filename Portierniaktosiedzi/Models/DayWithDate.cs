@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using Portierniaktosiedzi.Extensions;
 
 namespace Portierniaktosiedzi.Models
@@ -10,8 +9,6 @@ namespace Portierniaktosiedzi.Models
         {
             Date = date.Clone();
         }
-
-        public new ObservableCollection<Employee> Shifts { get; } = new ObservableCollection<Employee> { null, null, null };
 
         public DateTime Date { get; }
     }
