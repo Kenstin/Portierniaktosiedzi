@@ -25,7 +25,6 @@ namespace Portierniaktosiedzi.ViewModels
 
             var schoolEmployee = new SchoolStaff();
             ComboBoxEmployees.Add(schoolEmployee);
-
         }
 
         public DateTime Date { get; set; } = DateTime.Now;
