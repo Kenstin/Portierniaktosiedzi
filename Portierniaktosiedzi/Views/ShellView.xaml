@@ -57,8 +57,8 @@
         <DataGrid x:Name="Employees" Style="{StaticResource HideSchoolStaff}" HorizontalAlignment="Left" Height="110" Margin="180,39,0,0" VerticalAlignment="Top" Width="364" CanUserDeleteRows="False"/>
         <Button x:Name="GenerateTimetable" Content="Wygeneruj" HorizontalAlignment="Left" Margin="10,171,0,0" VerticalAlignment="Top" Width="114" Height="39"/>
         <Label Content="Pracownicy" HorizontalAlignment="Left" Margin="180,10,0,0" VerticalAlignment="Top" Width="172" Height="29" FontSize="16"/>
-        <xctk:DateTimeUpDown x:Name="Date"  Watermark="Data" HorizontalAlignment="Left" Margin="8,123,0,0" VerticalAlignment="Top" Width="154" Height="26" FontSize="14" CultureInfo="pl-PL" Format="YearMonth" Minimum="12/31/1000 23:59:00" DisplayDefaultValueOnEmptyText="True" UpdateValueOnEnterKey="True"/>
         <DataGrid HorizontalAlignment="Left" Height="198" Margin="180,171,0,0" VerticalAlignment="Top" Width="364" ItemsSource="{Binding Days}" AutoGenerateColumns="False" SelectionMode="Single">
+        <xctk:DateTimeUpDown x:Name="Date" Watermark="Data" HorizontalAlignment="Left" Margin="8,123,0,0" VerticalAlignment="Top" Width="154" Height="26" FontSize="14" CultureInfo="pl-PL" Format="YearMonth" Minimum="12/31/1000 23:59:00" DisplayDefaultValueOnEmptyText="True"/>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Dzien" Binding="{Binding Date.Day}" IsReadOnly="True"/>
                 <DataGridTemplateColumn Header="6-14">
