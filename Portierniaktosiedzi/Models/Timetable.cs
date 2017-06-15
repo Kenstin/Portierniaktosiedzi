@@ -22,7 +22,9 @@ namespace Portierniaktosiedzi.Models
             {
                 throw new ArgumentNullException(nameof(month));
             }
-            
+
+            var days = daysBefore.ToList();
+
             Month = month.Clone();
 
             try
