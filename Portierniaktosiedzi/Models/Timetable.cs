@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Portierniaktosiedzi.Extensions;
 using Portierniaktosiedzi.Utility;
 
 namespace Portierniaktosiedzi.Models
@@ -24,7 +25,7 @@ namespace Portierniaktosiedzi.Models
 
             var days = daysBefore.ToList();
 
-            Month = month;
+            Month = month.Clone();
 
             try
             {
