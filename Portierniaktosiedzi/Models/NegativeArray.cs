@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Portierniaktosiedzi.Models
 {
@@ -11,25 +12,28 @@ namespace Portierniaktosiedzi.Models
         private readonly T[] leftArray;
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="NegativeArray{T}"/> class by cloning existing arrays.
+        /// Initializes a new instance of the <see cref="NegativeArray{T}"/> class from IEnumerables.
         /// </summary>
-        /// <param name="leftArray">Array that will be indexed with indices less than 1</param>
-        /// <param name="rightArray">Array that will be accessed with indices greater or equal 1</param>
-        /// <exception cref="ArgumentOutOfRangeException">Thrown when any array length is less than one</exception>
-        public NegativeArray(T[] leftArray, T[] rightArray)
+        /// <param name="left">IEnumerable that will be indexed with indices less than 1</param>
+        /// <param name="right">IEnumerable that will be accessed with indices greater or equal 1</param>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when any IEnumerable length is less than one</exception>
+        public NegativeArray(IEnumerable<T> left, IEnumerable<T> right)
         {
+            var leftArray = left.ToArray();
+            var rightArray = right.ToArray();
+
             if (leftArray.Length < 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(leftArray), "Length should be greater than 0");
+                throw new ArgumentOutOfRangeException(nameof(left), "Length should be greater than 0");
             }
 
             if (rightArray.Length < 1)
             {
-                throw new ArgumentOutOfRangeException(nameof(rightArray), "Length should be greater than 0");
+                throw new ArgumentOutOfRangeException(nameof(right), "Length should be greater than 0");
             }
 
-            this.rightArray = (T[])rightArray.Clone();
-            this.leftArray = (T[])leftArray.Clone();
+            this.rightArray = rightArray;
+            this.leftArray = leftArray;
         }
 
         public int Length => rightArray.Length + leftArray.Length;

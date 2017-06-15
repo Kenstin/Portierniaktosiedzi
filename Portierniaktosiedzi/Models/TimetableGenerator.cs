@@ -26,7 +26,7 @@ namespace Portierniaktosiedzi.Models
 
             weekendsOff = new Dictionary<Employee, Tuple<DateTime, DateTime>>();
             weekends = timetable.Month.GetWeekendTuples().ToList();
-            schoolEmployee = new Employee(float.MaxValue, Gender.Woman, "Pracownik szkoly");
+            schoolEmployee = new SchoolStaff();
             bestCombination = Tuple.Create(weekendsOff, decimal.MaxValue);
         }
 

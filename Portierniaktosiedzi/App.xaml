@@ -1,9 +1,15 @@
 ﻿<Application x:Class="Portierniaktosiedzi.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Portierniaktosiedzi"
-             StartupUri="MainWindow.xaml">
+             xmlns:local="clr-namespace:Portierniaktosiedzi.ViewModels"
+             xmlns:portierniaktosiedzi="clr-namespace:Portierniaktosiedzi">
     <Application.Resources>
-         
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary>
+                    <portierniaktosiedzi:AppBootstrapper x:Key="Bootstrapper" />
+                </ResourceDictionary>
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </Application.Resources>
 </Application>

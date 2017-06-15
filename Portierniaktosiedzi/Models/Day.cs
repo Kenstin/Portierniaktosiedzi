@@ -1,10 +1,11 @@
+using System.Collections.ObjectModel;
 using System.Linq;
 
 namespace Portierniaktosiedzi.Models
 {
     public class Day
     {
-        public Employee[] Shifts { get; } = new Employee[3];
+        public ObservableCollection<Employee> Shifts { get; } = new ObservableCollection<Employee> { null, null, null };
 
         /// <summary>
         /// Checks whether all shifts are full

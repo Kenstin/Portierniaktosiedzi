@@ -7,20 +7,20 @@ namespace Portierniaktosiedzi.Models
 {
     public class Employee
     {
-        public Employee(float posts, Gender gender, string name)
+        public Employee(decimal posts, Gender gender, string name)
         {
             Posts = posts;
             Gender = gender;
             Name = name;
         }
 
-        public string Name { get; }
+        public string Name { get; set; }
 
         public Gender Gender { get; }
 
-        public float Posts { get; }
+        public decimal Posts { get; set; }
 
-        public decimal GetWorkingHours(int month, int year, IHolidays holidays)
+        public virtual decimal GetWorkingHours(int month, int year, IHolidays holidays)
         {
             int workingdays = DateTime.DaysInMonth(year, month);
 
@@ -34,7 +34,12 @@ namespace Portierniaktosiedzi.Models
                     }
                 }
 
-            return (decimal)Posts * workingdays * 8;
+            return Posts * workingdays * 8;
+        }
+
+        public override string ToString()
+        {
+            return Name;
         }
     }
 }
