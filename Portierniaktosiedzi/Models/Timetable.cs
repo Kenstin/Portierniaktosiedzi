@@ -62,11 +62,16 @@ namespace Portierniaktosiedzi.Models
         //5 dni w tygodniu max
         //5 dni pod rzad max
 
-        public void Generate(IEnumerable<Employee> employees, IHolidays holidays)
+        public bool Generate(IEnumerable<Employee> employees, IHolidays holidays)
         {
             var timetableGenerator = new TimetableGenerator(this, employees, holidays ?? throw new ArgumentNullException(nameof(holidays)));
-            timetableGenerator.Generate();
-            WorkingHoursLeft = timetableGenerator.WorkingHoursLeft;
+            if (timetableGenerator.Generate())
+            {
+                WorkingHoursLeft = timetableGenerator.WorkingHoursLeft;
+                return true;
+            }
+
+            return false;
         }
     }
 }
