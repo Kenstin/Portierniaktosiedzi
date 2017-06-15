@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Portierniaktosiedzi.Extensions;
 using Portierniaktosiedzi.Utility;
 
 namespace Portierniaktosiedzi.Models
@@ -22,7 +23,7 @@ namespace Portierniaktosiedzi.Models
                 throw new ArgumentNullException(nameof(month));
             }
 
-            Month = month;
+            Month = month.Clone();
 
             try
             {
