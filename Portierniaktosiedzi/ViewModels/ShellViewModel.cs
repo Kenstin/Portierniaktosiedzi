@@ -13,7 +13,7 @@ using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
 
 namespace Portierniaktosiedzi.ViewModels
 {
-    public class ShellViewModel : PropertyChangedBase, IShell
+    public sealed class ShellViewModel : PropertyChangedBase, IShell
     {
         private readonly IWindowManager windowManager;
 
@@ -26,11 +26,14 @@ namespace Portierniaktosiedzi.ViewModels
             ComboBoxEmployees = new BindableCollection<Employee>();
             Employees.CollectionChanged += EmployeesOnCollectionChanged;
 
+            Date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+            PropertyChanged += OnDateChanged;
+
             var schoolEmployee = new SchoolStaff();
             ComboBoxEmployees.Add(schoolEmployee);
         }
 
-        public DateTime Date { get; set; } = DateTime.Now;
+        public DateTime Date { get; set; }
 
         public BindableCollection<Employee> Employees { get; }
 
@@ -123,6 +126,20 @@ namespace Portierniaktosiedzi.ViewModels
             });
 
             return await savingTask;
+        }
+
+        private void OnDateChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        {
+            if (propertyChangedEventArgs.PropertyName == nameof(Date))
+            {
+                Days.Clear();
+                var currDate = Date.AddDays(-1);
+                for (var i = 0; i < 6; i++)
+                {
+                    Days.Add(new DayWithDate(currDate));
+                    currDate = currDate.AddDays(-1);
+                }
+            }
         }
 
         private void EmployeesOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)
