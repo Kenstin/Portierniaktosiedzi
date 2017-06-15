@@ -40,6 +40,11 @@ namespace Portierniaktosiedzi.Models
             }
 
             weekendsOff = bestCombination.Item1;
+            if (weekendsOff.Count == 0)
+            {
+                return false;
+            }
+
             TryMake();
             return true;
         }
