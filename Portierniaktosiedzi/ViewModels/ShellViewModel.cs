@@ -1,12 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.ComponentModel;
 using System.Globalization;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
 using Caliburn.Micro;
-using Microsoft.Win32;
 using Portierniaktosiedzi.Models;
 using Portierniaktosiedzi.Utility;
+using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
 
 namespace Portierniaktosiedzi.ViewModels
 {
@@ -58,7 +61,7 @@ namespace Portierniaktosiedzi.ViewModels
             }
         }
 
-        public bool GenerateTimetable()
+        public async Task GenerateTimetable()
         {
             var dialog = new SaveFileDialog
             {
@@ -67,16 +70,59 @@ namespace Portierniaktosiedzi.ViewModels
                                .GetMonthName(Date.Month),
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
             };
-            dialog.ShowDialog();
 
-            var timetable = new Timetable(Date, Days);
-            timetable.Generate(Employees, new Holidays(Date.Year));
-            using (var saveAsXlsx = new SaveAsXlsx(timetable))
+            if ((dialog.ShowDialog() ?? false) && await TryGeneratingTimetable(dialog.FileName))
             {
-                saveAsXlsx.SaveAs(dialog.FileName);
+                MessageBox.Show("Poprawnie utworzono i zapisano harmonogram");
+            }
+            else
+            {
+                MessageBox.Show("Nie da sie wygenerowac harmonogramu z obecnymi ustawieniami.");
+            }
+        }
+
+        private async Task<bool> TryGeneratingTimetable(string path)
+        {
+            Timetable timetable;
+            Task<bool> generation;
+            try
+            {
+                timetable = new Timetable(Date, Days);
+                generation = Task.Run(() => timetable.Generate(Employees, new Holidays(Date.Year)));
+            }
+            catch (ArgumentException)
+            {
+                MessageBox.Show("Prosze uzupelnic wszystkie zmiany.");
+                return false;
             }
 
-            return true;
+            var savingTask = Task.Run(async () =>
+            {
+                var saveAsXlsx = new SaveAsXlsx(timetable);
+                try
+                {
+                    if (await generation.ConfigureAwait(false))
+                    {
+                        saveAsXlsx.SaveAs(path);
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                catch (System.IO.IOException)
+                {
+                    MessageBox.Show("Plik jest juz w uzyciu.");
+                    return false;
+                }
+                finally
+                {
+                    saveAsXlsx.Dispose();
+                }
+                return true;
+            });
+
+            return await savingTask;
         }
 
         private void EmployeesOnCollectionChanged(object sender, NotifyCollectionChangedEventArgs notifyCollectionChangedEventArgs)

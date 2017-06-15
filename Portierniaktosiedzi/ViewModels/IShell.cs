@@ -1,7 +1,9 @@
+using System.Threading.Tasks;
+
 namespace Portierniaktosiedzi.ViewModels
 {
     public interface IShell
     {
-        bool GenerateTimetable();
+        Task GenerateTimetable();
     }
 }
