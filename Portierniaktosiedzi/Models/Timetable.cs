@@ -7,6 +7,14 @@ namespace Portierniaktosiedzi.Models
 {
     public class Timetable
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Timetable"/> class.
+        /// </summary>
+        /// <param name="month">Month of the timetable</param>
+        /// <param name="daysBefore">Six days before the 1st day of <see cref="month"/> needed to generate the timetable </param>
+        /// <exception cref="ArgumentNullException">Thrown when <see cref="month"/> is null or when any day in daysBefore is null</exception>
+        /// <exception cref="ArgumentOutOfRangeException">Thrown when daysBefore length is 5 or less</exception>
+        /// <exception cref="ArgumentException">Thrown when not all shifts are assigned</exception>
         public Timetable(DateTime month, IEnumerable<Day> daysBefore)
         {
             if (month == null)
