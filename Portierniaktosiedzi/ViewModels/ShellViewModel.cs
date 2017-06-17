@@ -27,8 +27,9 @@ namespace Portierniaktosiedzi.ViewModels
             Employees.CollectionChanged += EmployeesOnCollectionChanged;
 
             Date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-            PropertyChanged += OnDateChanged;
+            PropertyChanged += OnPropertyChanged;
 
+            UpdateDays();
             var schoolEmployee = new SchoolStaff();
             ComboBoxEmployees.Add(schoolEmployee);
         }
@@ -128,17 +129,24 @@ namespace Portierniaktosiedzi.ViewModels
             return await savingTask;
         }
 
-        private void OnDateChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
+        private void OnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
         {
-            if (propertyChangedEventArgs.PropertyName == nameof(Date))
+            switch (propertyChangedEventArgs.PropertyName)
             {
-                Days.Clear();
-                var currDate = Date.AddDays(-1);
-                for (var i = 0; i < 6; i++)
-                {
-                    Days.Add(new DayWithDate(currDate));
-                    currDate = currDate.AddDays(-1);
-                }
+                case nameof(Date):
+                    UpdateDays();
+                    break;
+            }
+        }
+
+        private void UpdateDays()
+        {
+            Days.Clear();
+            var currDate = Date.AddDays(-1);
+            for (var i = 0; i < 6; i++)
+            {
+                Days.Add(new DayWithDate(currDate));
+                currDate = currDate.AddDays(-1);
             }
         }
 
