@@ -5,7 +5,7 @@
     xmlns:viewModels="clr-namespace:Portierniaktosiedzi.ViewModels"
     xmlns:converters="clr-namespace:Portierniaktosiedzi.Converters"
     x:Name="Portierniaktosiedzi" x:Class="Portierniaktosiedzi.Views.ShellView"
-        Height="437.148" Width="597.444">
+        Height="483.148" Width="481.444" Title="Generowanie grafiku">
 
     <Window.Resources>
         <converters:HideEmployeeConverter x:Key="HideEmployeeConverter"/>
