@@ -27,9 +27,7 @@ namespace Portierniaktosiedzi.ViewModels
             Employees.CollectionChanged += EmployeesOnCollectionChanged;
 
             Date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
-            PropertyChanged += OnPropertyChanged;
 
-            UpdateDays();
             var schoolEmployee = new SchoolStaff();
             ComboBoxEmployees.Add(schoolEmployee);
         }
@@ -129,17 +127,7 @@ namespace Portierniaktosiedzi.ViewModels
             return await savingTask;
         }
 
-        private void OnPropertyChanged(object sender, PropertyChangedEventArgs propertyChangedEventArgs)
-        {
-            switch (propertyChangedEventArgs.PropertyName)
-            {
-                case nameof(Date):
-                    UpdateDays();
-                    break;
-            }
-        }
-
-        private void UpdateDays()
+        private void OnDateChanged() //it is used, because of PropertyChanged.Fody
         {
             Days.Clear();
             var currDate = Date.AddDays(-1);
