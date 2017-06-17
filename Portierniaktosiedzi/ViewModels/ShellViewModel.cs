@@ -32,6 +32,8 @@ namespace Portierniaktosiedzi.ViewModels
             ComboBoxEmployees.Add(schoolEmployee);
         }
 
+        public bool GeneratingTimetable { get; set; }
+
         public DateTime Date { get; set; }
 
         public BindableCollection<Employee> Employees { get; }
@@ -73,12 +75,15 @@ namespace Portierniaktosiedzi.ViewModels
                 InitialDirectory = Environment.GetFolderPath(Environment.SpecialFolder.Desktop)
             };
 
+            GeneratingTimetable = true;
             if ((dialog.ShowDialog() ?? false) && await TryGeneratingTimetable(dialog.FileName))
             {
+                GeneratingTimetable = false;
                 MessageBox.Show("Poprawnie utworzono i zapisano harmonogram");
             }
             else
             {
+                GeneratingTimetable = false;
                 MessageBox.Show("Nie da sie wygenerowac harmonogramu z obecnymi ustawieniami.");
             }
         }

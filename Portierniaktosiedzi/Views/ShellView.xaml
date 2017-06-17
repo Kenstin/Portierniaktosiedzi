@@ -89,5 +89,6 @@
             </DataGrid.Columns>
         </DataGrid>
         <Button Name="DeleteEmployee" Content="Usun pracownika" HorizontalAlignment="Left" Margin="10,83,0,0" VerticalAlignment="Top" Width="114" Height="26"/>
+        <ProgressBar HorizontalAlignment="Left" Height="29" Margin="8,231,0,0" VerticalAlignment="Top" Width="154" IsIndeterminate="{Binding GeneratingTimetable, Mode=OneWay}"/>
     </Grid>
 </Window>
