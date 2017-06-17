@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Dynamic;
 using System.Globalization;
 using System.Linq;
 using System.Threading.Tasks;
@@ -49,7 +50,11 @@ namespace Portierniaktosiedzi.ViewModels
         public void AddEmployee()
         {
             var employeeViewModel = new AddEmployeeViewModel();
-            if (windowManager.ShowDialog(employeeViewModel) ?? false)
+
+            dynamic settings = new ExpandoObject();
+            settings.Title = "Dodaj pracownika";
+
+            if (windowManager.ShowDialog(employeeViewModel, settings: settings) ?? false)
             {
                 var employee = new Employee(employeeViewModel.Posts, employeeViewModel.Gender, employeeViewModel.EmployeeName);
                 Employees.Add(employee);
