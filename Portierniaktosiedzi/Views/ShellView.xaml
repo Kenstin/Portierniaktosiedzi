@@ -91,7 +91,7 @@
         </DataGrid>
         <Button Name="DeleteEmployee" Content="Usun pracownika" HorizontalAlignment="Left" Margin="324,84,0,0" VerticalAlignment="Top" Width="132" Height="26"/>
         <Label Content="Poprzedni miesiac" HorizontalAlignment="Left" Margin="10,202,0,0" VerticalAlignment="Top" Width="191" FontSize="16"/>
-        <ProgressBar HorizontalAlignment="Left" Height="9" Margin="0,476,0,0" VerticalAlignment="Top" Width="473" IsIndeterminate="{Binding GeneratingTimetable, Mode=OneWay}"/>
+        <ProgressBar HorizontalAlignment="Left" Height="11" Margin="-6,476,-5,-2" VerticalAlignment="Top" Width="479" IsIndeterminate="{Binding GeneratingTimetable, Mode=OneWay}"/>
         <Label Content="Miesiac" HorizontalAlignment="Left" Margin="10,165,0,0" VerticalAlignment="Top" FontSize="16" Width="81"/>
     </Grid>
 </Window>
