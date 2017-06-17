@@ -9,7 +9,7 @@
         xmlns:converters="clr-namespace:Portierniaktosiedzi.Converters"
         xmlns:models="clr-namespace:Portierniaktosiedzi.Models"
         mc:Ignorable="d"
-        Title="Dodaj pracownika" Height="159.392" Width="247.62" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" AutomationProperties.IsRequiredForForm="True" ShowInTaskbar="False">
+        Title="Dodaj pracownika" Height="143.066" Width="240.746" ResizeMode="NoResize" WindowStartupLocation="CenterScreen" AutomationProperties.IsRequiredForForm="True" ShowInTaskbar="False">
     <Grid>
         <xctk:WatermarkTextBox x:Name="EmployeeName" HorizontalAlignment="Left" Height="23" Margin="10,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" MaxLines="1" Watermark="Imię i nazwisko"/>
         <xctk:DecimalUpDown x:Name="Posts" Value="{Binding Posts}" HorizontalAlignment="Left" Height="23" Margin="10,57,0,0" VerticalAlignment="Top" Width="120" Watermark="Etat" Maximum="2.0" Minimum="0.1" Increment="0.1" UpdateValueOnEnterKey="True" CultureInfo="pl-PL" DefaultValue="1" DisplayDefaultValueOnEmptyText="True"/>
