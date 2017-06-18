@@ -26,7 +26,4 @@
         </StackPanel>
 
     </Grid>
-    <Window.DataContext>
-        <viewModels:AddEmployeeViewModel/>
-    </Window.DataContext>
 </Window>
