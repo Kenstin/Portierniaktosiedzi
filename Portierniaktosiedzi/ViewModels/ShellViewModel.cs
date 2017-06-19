@@ -9,6 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
+using Portierniaktosiedzi.Exceptions;
 using Portierniaktosiedzi.Models;
 using Portierniaktosiedzi.Utility;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
@@ -97,7 +98,7 @@ namespace Portierniaktosiedzi.ViewModels
                     }
                 }
             }
-            catch (ArgumentNullException)
+            catch (ShiftsNotAssignedException)
             {
                 MessageBox.Show("Prosze uzupelnic wszystkie zmiany.");
             }
