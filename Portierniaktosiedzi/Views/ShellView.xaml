@@ -10,6 +10,7 @@
     <Window.Resources>
         <converters:HideEmployeeConverter x:Key="HideEmployeeConverter"/>
         <converters:HideSchoolStaffConverter x:Key="HideSchoolStaffConverter"/>
+        <converters:GenderToPolishConverter x:Key="GenderToPolishConverter"/>
         <Style x:Key="HideDeletedEmployees" TargetType="{x:Type ComboBox}" BasedOn="{StaticResource {x:Type ComboBox}}">
             <Setter Property="ItemContainerStyle">
                 <Setter.Value>
@@ -54,7 +55,13 @@
 
     <Grid Background="White">
         <Button x:Name="AddEmployee" Content="Dodaj pracownika" HorizontalAlignment="Left" VerticalAlignment="Top" Width="132" Margin="324,50,0,0" Height="25"/>
-        <DataGrid x:Name="Employees" Style="{StaticResource HideSchoolStaff}" HorizontalAlignment="Left" Height="110" Margin="10,44,0,0" VerticalAlignment="Top" Width="309" CanUserDeleteRows="False"/>
+        <DataGrid x:Name="Employees" Style="{StaticResource HideSchoolStaff}" HorizontalAlignment="Left" Height="110" Margin="10,44,0,0" VerticalAlignment="Top" Width="309" CanUserDeleteRows="False" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Imie i nazwisko" Binding="{Binding Name}"></DataGridTextColumn>
+                <DataGridTextColumn Header="Plec" Binding="{Binding Gender, Converter={StaticResource GenderToPolishConverter}}" IsReadOnly="True"></DataGridTextColumn>
+                <DataGridTextColumn Header="Etat" Binding="{Binding Posts}"></DataGridTextColumn>
+            </DataGrid.Columns>
+        </DataGrid>
         <Button x:Name="GenerateTimetable" Content="Wygeneruj" HorizontalAlignment="Left" Margin="172,443,0,0" VerticalAlignment="Top" Width="114" Height="26"/>
         <Label Content="Pracownicy" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="172" Height="29" FontSize="16"/>
 
