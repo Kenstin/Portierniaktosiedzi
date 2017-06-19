@@ -112,6 +112,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Converters\EnumToBooleanConverter.cs" />
+    <Compile Include="Converters\GenderToPolishConverter.cs" />
     <Compile Include="Converters\HideEmployeeConverter.cs" />
     <Compile Include="Converters\HideSchoolStaffConverter.cs" />
     <Compile Include="Exceptions\ShiftsNotAssignedException.cs" />
