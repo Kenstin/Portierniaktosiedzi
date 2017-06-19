@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Portierniaktosiedzi.Exceptions;
 using Portierniaktosiedzi.Extensions;
 using Portierniaktosiedzi.Utility;
 
@@ -15,7 +16,7 @@ namespace Portierniaktosiedzi.Models
         /// <param name="daysBefore">Six days before the 1st day of <see cref="month"/> needed to generate the timetable </param>
         /// <exception cref="ArgumentNullException">Thrown when <see cref="month"/> is null or when any day in daysBefore is null</exception>
         /// <exception cref="ArgumentOutOfRangeException">Thrown when daysBefore length is 5 or less</exception>
-        /// <exception cref="ArgumentException">Thrown when not all shifts are assigned</exception>
+        /// <exception cref="ShiftsNotAssignedException">Thrown when not all shifts are assigned</exception>
         public Timetable(DateTime month, IEnumerable<Day> daysBefore)
         {
             if (month == null)
@@ -31,12 +32,12 @@ namespace Portierniaktosiedzi.Models
             {
                 if (days.Any(day => !day.IsFull()))
                 {
-                    throw new ArgumentException("All shifts have to be assigned.");
+                    throw new ShiftsNotAssignedException("All shifts have to be assigned.");
                 }
             }
             catch (ArgumentNullException exception)
             {
-                throw new ArgumentNullException("No element can be null.", exception);
+                throw new ArgumentNullException("No day can be null.", exception);
             }
 
             if (days.Count < 6)

@@ -4,10 +4,12 @@ using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Dynamic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
+using Portierniaktosiedzi.Exceptions;
 using Portierniaktosiedzi.Models;
 using Portierniaktosiedzi.Utility;
 using SaveFileDialog = Microsoft.Win32.SaveFileDialog;
@@ -81,32 +83,39 @@ namespace Portierniaktosiedzi.ViewModels
             };
 
             GeneratingTimetable = true;
-            if ((dialog.ShowDialog() ?? false) && await TryGeneratingTimetable(dialog.FileName))
+
+            try
             {
-                GeneratingTimetable = false;
-                MessageBox.Show("Poprawnie utworzono i zapisano harmonogram");
+                if (dialog.ShowDialog().GetValueOrDefault())
+                {
+                    if (await TryGeneratingTimetable(dialog.FileName).ConfigureAwait(false))
+                    {
+                        MessageBox.Show("Poprawnie utworzono i zapisano harmonogram");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Nie da sie wygenerowac harmonogramu z obecnymi ustawieniami.");
+                    }
+                }
             }
-            else
+            catch (ShiftsNotAssignedException)
+            {
+                MessageBox.Show("Prosze uzupelnic wszystkie zmiany.");
+            }
+            catch (IOException)
+            {
+                MessageBox.Show("Plik jest juz w uzyciu.");
+            }
+            finally
             {
                 GeneratingTimetable = false;
-                MessageBox.Show("Nie da sie wygenerowac harmonogramu z obecnymi ustawieniami.");
             }
         }
 
         private async Task<bool> TryGeneratingTimetable(string path)
         {
-            Timetable timetable;
-            Task<bool> generation;
-            try
-            {
-                timetable = new Timetable(Date, Days);
-                generation = Task.Run(() => timetable.Generate(Employees, new Holidays(Date.Year)));
-            }
-            catch (ArgumentException)
-            {
-                MessageBox.Show("Prosze uzupelnic wszystkie zmiany.");
-                return false;
-            }
+            var timetable = new Timetable(Date, Days);
+            var generation = Task.Run(() => timetable.Generate(Employees, new Holidays(Date.Year)));
 
             var savingTask = Task.Run(async () =>
             {
@@ -122,10 +131,9 @@ namespace Portierniaktosiedzi.ViewModels
                         return false;
                     }
                 }
-                catch (System.IO.IOException)
+                catch (IOException e)
                 {
-                    MessageBox.Show("Plik jest juz w uzyciu.");
-                    return false;
+                    throw new IOException("Plik jest juz w uzyciu.", e);
                 }
                 finally
                 {
