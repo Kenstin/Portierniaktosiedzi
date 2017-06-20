@@ -69,6 +69,7 @@ namespace Portierniaktosiedzi.ViewModels
             {
                 DeletedEmployees.Add(SelectedEmployee);
                 Employees.Remove(SelectedEmployee);
+                ComboBoxEmployees.Refresh();
             }
         }
 
