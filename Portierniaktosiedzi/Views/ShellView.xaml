@@ -5,7 +5,7 @@
     xmlns:viewModels="clr-namespace:Portierniaktosiedzi.ViewModels"
     xmlns:converters="clr-namespace:Portierniaktosiedzi.Converters"
     x:Name="Portierniaktosiedzi" x:Class="Portierniaktosiedzi.Views.ShellView"
-        Height="514.148" Width="474.444" Title="Generowanie grafiku" ResizeMode="NoResize">
+        Height="493.648" Width="474.444" Title="Generowanie grafiku" ResizeMode="NoResize">
 
     <Window.Resources>
         <converters:HideEmployeeConverter x:Key="HideEmployeeConverter"/>
@@ -62,11 +62,11 @@
                 <DataGridTextColumn Header="Etat" Binding="{Binding Posts}"></DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
-        <Button x:Name="GenerateTimetable" Content="Wygeneruj" HorizontalAlignment="Left" Margin="172,443,0,0" VerticalAlignment="Top" Width="114" Height="26"/>
+        <Button x:Name="GenerateTimetable" Content="Wygeneruj" HorizontalAlignment="Left" Margin="172,422,0,0" VerticalAlignment="Top" Width="114" Height="26"/>
         <Label Content="Pracownicy" HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Width="172" Height="29" FontSize="16"/>
 
         <xctk:DateTimeUpDown x:Name="Date" Watermark="Data" HorizontalAlignment="Left" Margin="82,169,0,0" VerticalAlignment="Top" Width="132" Height="26" FontSize="14" CultureInfo="pl-PL" Format="YearMonth" Minimum="12/31/1000 23:59:00" DisplayDefaultValueOnEmptyText="True"/>
-        <DataGrid HorizontalAlignment="Left" Height="198" Margin="10,233,0,0" VerticalAlignment="Top" Width="446" ItemsSource="{Binding Days, Mode=OneWay}" AutoGenerateColumns="False" SelectionMode="Single">
+        <DataGrid HorizontalAlignment="Left" Height="179" Margin="10,233,0,0" VerticalAlignment="Top" Width="446" ItemsSource="{Binding Days, Mode=OneWay}" AutoGenerateColumns="False" SelectionMode="Single">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Dzien" Binding="{Binding Date.Day}" IsReadOnly="True" MinWidth="45"/>
                 <DataGridTemplateColumn Header="6-14" MinWidth="130">
@@ -98,7 +98,7 @@
         </DataGrid>
         <Button Name="DeleteEmployee" Content="Usun pracownika" HorizontalAlignment="Left" Margin="324,84,0,0" VerticalAlignment="Top" Width="132" Height="26"/>
         <Label Content="Poprzedni miesiac" HorizontalAlignment="Left" Margin="10,202,0,0" VerticalAlignment="Top" Width="191" FontSize="16"/>
-        <ProgressBar HorizontalAlignment="Left" Height="11" Margin="-6,476,-5,-2" VerticalAlignment="Top" Width="479" IsIndeterminate="{Binding GeneratingTimetable, Mode=OneWay}"/>
+        <ProgressBar HorizontalAlignment="Left" Height="11" Margin="-6,455,-5,0" VerticalAlignment="Top" Width="479" IsIndeterminate="{Binding GeneratingTimetable, Mode=OneWay}"/>
         <Label Content="Miesiac" HorizontalAlignment="Left" Margin="10,165,0,0" VerticalAlignment="Top" FontSize="16" Width="81"/>
     </Grid>
 </Window>
