@@ -66,6 +66,9 @@
     <Reference Include="Microsoft.EntityFrameworkCore, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.EntityFrameworkCore.2.0.0\lib\netstandard2.0\Microsoft.EntityFrameworkCore.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.EntityFrameworkCore.Design, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.EntityFrameworkCore.Design.2.0.0\lib\net461\Microsoft.EntityFrameworkCore.Design.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.EntityFrameworkCore.Relational, Version=2.0.0.0, Culture=neutral, PublicKeyToken=adb9793829ddae60, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.EntityFrameworkCore.Relational.2.0.0\lib\netstandard2.0\Microsoft.EntityFrameworkCore.Relational.dll</HintPath>
     </Reference>
@@ -187,6 +190,7 @@
     <Compile Include="Converters\GenderToPolishConverter.cs" />
     <Compile Include="Converters\HideEmployeeConverter.cs" />
     <Compile Include="Converters\HideSchoolStaffConverter.cs" />
+    <Compile Include="Database\TimetableContext.cs" />
     <Compile Include="Exceptions\ShiftsNotAssignedException.cs" />
     <Compile Include="Models\DayWithDate.cs" />
     <Compile Include="Models\SchoolStaff.cs" />
