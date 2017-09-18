@@ -14,9 +14,11 @@ namespace Portierniaktosiedzi.Models
             Name = name;
         }
 
+        public int Id { get; set; }
+
         public string Name { get; set; }
 
-        public Gender Gender { get; }
+        public Gender Gender { get; set; }
 
         public decimal Posts { get; set; }
 
