@@ -7,6 +7,11 @@ namespace Portierniaktosiedzi.Database
 {
     public class TimetableContext : DbContext
     {
+        public TimetableContext(DbContextOptions options)
+            : base(options)
+        {
+        }
+
         public DbSet<Employee> Employees { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

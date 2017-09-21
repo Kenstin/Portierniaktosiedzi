@@ -14,7 +14,11 @@ namespace Portierniaktosiedzi.Models
             Name = name;
         }
 
-        public int Id { get; set; }
+        private Employee()
+        {
+        }
+
+        public int Id { get; private set; }
 
         public string Name { get; set; }
 

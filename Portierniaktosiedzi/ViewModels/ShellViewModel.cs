@@ -1,7 +1,6 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using System.ComponentModel;
 using System.Dynamic;
 using System.Globalization;
 using System.IO;
@@ -9,6 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 using Caliburn.Micro;
+using Portierniaktosiedzi.Database;
 using Portierniaktosiedzi.Exceptions;
 using Portierniaktosiedzi.Models;
 using Portierniaktosiedzi.Utility;
@@ -19,14 +19,16 @@ namespace Portierniaktosiedzi.ViewModels
     public sealed class ShellViewModel : PropertyChangedBase, IShell
     {
         private readonly IWindowManager windowManager;
+        private readonly IConnectedRepository repository;
 
-        public ShellViewModel(IWindowManager windowManager)
+        public ShellViewModel(IWindowManager windowManager, IConnectedRepository repository)
         {
             this.windowManager = windowManager;
-            Employees = new BindableCollection<Employee>();
+            this.repository = repository;
+            Employees = repository.GetEmployees();
             Days = new BindableCollection<DayWithDate>();
             DeletedEmployees = new BindableCollection<Employee>();
-            ComboBoxEmployees = new BindableCollection<Employee>();
+            ComboBoxEmployees = new BindableCollection<Employee>(Employees);
             Employees.CollectionChanged += EmployeesOnCollectionChanged;
 
             Date = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
@@ -39,7 +41,7 @@ namespace Portierniaktosiedzi.ViewModels
 
         public DateTime Date { get; set; }
 
-        public BindableCollection<Employee> Employees { get; }
+        public ObservableCollection<Employee> Employees { get; }
 
         public BindableCollection<Employee> ComboBoxEmployees { get; }
 
@@ -49,7 +51,7 @@ namespace Portierniaktosiedzi.ViewModels
 
         public BindableCollection<DayWithDate> Days { get; }
 
-        public void AddEmployee()
+        public async Task AddEmployee()
         {
             var employeeViewModel = new AddEmployeeViewModel();
 
@@ -60,15 +62,17 @@ namespace Portierniaktosiedzi.ViewModels
             {
                 var employee = new Employee(employeeViewModel.Posts, employeeViewModel.Gender, employeeViewModel.EmployeeName);
                 Employees.Add(employee);
+                await repository.SaveChangesAsync();
             }
         }
 
-        public void DeleteEmployee()
+        public async Task DeleteEmployee()
         {
             if (SelectedEmployee != null && !DeletedEmployees.Contains(SelectedEmployee))
             {
                 DeletedEmployees.Add(SelectedEmployee);
                 Employees.Remove(SelectedEmployee);
+                await repository.SaveChangesAsync();
                 ComboBoxEmployees.Refresh();
             }
         }

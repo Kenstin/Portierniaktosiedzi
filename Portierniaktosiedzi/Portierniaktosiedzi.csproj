@@ -190,6 +190,8 @@
     <Compile Include="Converters\GenderToPolishConverter.cs" />
     <Compile Include="Converters\HideEmployeeConverter.cs" />
     <Compile Include="Converters\HideSchoolStaffConverter.cs" />
+    <Compile Include="Database\ConnectedRepository.cs" />
+    <Compile Include="Database\IConnectedRepository.cs" />
     <Compile Include="Database\TimetableContext.cs" />
     <Compile Include="Exceptions\ShiftsNotAssignedException.cs" />
     <Compile Include="Migrations\20170917215407_Init.cs" />
