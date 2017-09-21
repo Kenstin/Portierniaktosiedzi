@@ -18,7 +18,14 @@ namespace Portierniaktosiedzi.Database
         {
             var source = Path.Combine(
                 Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                "Portierniaktosiedzi/Portiernia.db");
+                "Portierniaktosiedzi");
+            Directory.CreateDirectory(source);
+            source += "/Portiernia.db";
+            if (!File.Exists(source))
+            {
+                File.Create(source).Dispose();
+            }
+
             optionsBuilder.UseSqlite("Data Source=" + source);
         }
     }
