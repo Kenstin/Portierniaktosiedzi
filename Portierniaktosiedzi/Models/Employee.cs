@@ -18,6 +18,7 @@ namespace Portierniaktosiedzi.Models
         {
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Used by EF Core")]
         public int Id { get; private set; }
 
         public string Name { get; set; }

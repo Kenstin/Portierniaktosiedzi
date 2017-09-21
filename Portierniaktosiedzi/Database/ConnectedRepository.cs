@@ -34,7 +34,7 @@ namespace Portierniaktosiedzi.Database
 
         public void Dispose()
         {
-            timetableContext?.Dispose();
+            timetableContext.Dispose();
         }
     }
 }
