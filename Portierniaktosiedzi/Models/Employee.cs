@@ -14,9 +14,16 @@ namespace Portierniaktosiedzi.Models
             Name = name;
         }
 
+        private Employee()
+        {
+        }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode", Justification = "Used by EF Core")]
+        public int Id { get; private set; }
+
         public string Name { get; set; }
 
-        public Gender Gender { get; }
+        public Gender Gender { get; set; }
 
         public decimal Posts { get; set; }
 

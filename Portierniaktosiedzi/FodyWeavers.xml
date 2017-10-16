@@ -1,5 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Weavers>
   <PropertyChanged />
-  <Costura IncludeDebugSymbols="false"/>
+  <Costura IncludeDebugSymbols="false">
+    <Unmanaged32Assemblies>
+      SQLite.Interop
+      e_sqlite3
+    </Unmanaged32Assemblies>
+    <Unmanaged64Assemblies>
+      SQLite.Interop
+      e_sqlite
+    </Unmanaged64Assemblies>
+  </Costura>
 </Weavers>
